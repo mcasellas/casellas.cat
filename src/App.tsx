@@ -31,16 +31,26 @@ const Footer = () => {
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.8, delay: 0.4 }}
-    className="mt-16 md:mt-24 pt-8 border-t border-[#222] flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0"
+    className="mt-16 md:mt-24 pt-8 border-t border-[#222] flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0 pb-12"
   >
     <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[10px] text-[#444] uppercase tracking-widest">
       <div>
         <p className="mb-1 text-[#666]">{t('footer.interests_title')}</p>
         <p className="text-[#888]">{t('footer.interests_desc')}</p>
       </div>
+      <div className="xl:hidden flex flex-col gap-0.5">
+        <p className="mb-1 text-[#666]">LOCATION</p>
+        <p className="text-[#888]">41.9309° N, 2.2544° E • CATALUNYA</p>
+      </div>
     </div>
-    <div className="text-[10px] font-mono text-[#444] tracking-tight">
-      © {new Date().getFullYear()} CASELLAS.CAT
+    
+    <div className="flex flex-col items-start md:items-end gap-4 w-full md:w-auto">
+      <div className="md:hidden">
+        <LanguageSwitcher />
+      </div>
+      <div className="text-[10px] font-mono text-[#444] tracking-tight">
+        © {new Date().getFullYear()} CASELLAS.CAT
+      </div>
     </div>
   </motion.footer>
   );
@@ -50,19 +60,21 @@ const CVPage = () => {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
-        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
         </div>
-        <LanguageSwitcher />
+        <div className="hidden md:block">
+          <LanguageSwitcher />
+        </div>
       </div>
 
       <motion.header
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0"
+        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
@@ -347,19 +359,21 @@ const PhotosPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
-        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
         </div>
-        <LanguageSwitcher />
+        <div className="hidden md:block">
+          <LanguageSwitcher />
+        </div>
       </div>
 
       <motion.header
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0"
+        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
@@ -478,19 +492,21 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
-        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
         </div>
-        <LanguageSwitcher />
+        <div className="hidden md:block">
+          <LanguageSwitcher />
+        </div>
       </div>
 
       <motion.header
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0"
+        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
