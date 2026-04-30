@@ -45,7 +45,8 @@ const Footer = () => {
   </motion.footer>
   );
 };
-const CVPage = () => {
+
+const CVPage = () => {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
@@ -65,7 +66,7 @@ const Footer = () => {
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
-          MARC<br/>CASELLAS
+          <Trans i18nKey="home.title" />
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
