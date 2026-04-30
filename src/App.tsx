@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import exifr from 'exifr';
+import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight, Globe } from 'lucide-react';
+import { useTranslation, Trans } from 'react-i18next';
 
-const Footer = () => (
+const LanguageSwitcher = ({ className = "" }: { className?: string }) => {
+  const { i18n } = useTranslation();
+  
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'ca' ? 'en' : 'ca');
+  };
+
+  return (
+    <button 
+      onClick={toggleLanguage}
+      className={`bg-[#1a1a1a]/80 backdrop-blur-sm border border-[#333] text-[#888] hover:text-white px-3 py-1.5 rounded-full font-mono text-[10px] flex items-center gap-2 transition-colors uppercase tracking-widest cursor-pointer ${className}`}
+    >
+      <Globe size={12} />
+      {i18n.language === 'ca' ? 'EN' : 'CA'}
+    </button>
+  );
+};
+
+const Footer = () => {
+  const { t } = useTranslation();
+  
+  return (
   <motion.footer 
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -11,22 +35,27 @@ const Footer = () => (
   >
     <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[10px] text-[#444] uppercase tracking-widest">
       <div>
-        <p className="mb-1 text-[#666]">Interessos</p>
-        <p className="text-[#888]">Fotografia • Ràdio • NetDevOps</p>
+        <p className="mb-1 text-[#666]">{t('footer.interests_title')}</p>
+        <p className="text-[#888]">{t('footer.interests_desc')}</p>
       </div>
     </div>
     <div className="text-[10px] font-mono text-[#444] tracking-tight">
       © {new Date().getFullYear()} CASELLAS.CAT
     </div>
   </motion.footer>
-);
+  );
+};
 
 const CVPage = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="hidden md:flex absolute top-12 right-12 text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
-        <span>41.9309° N, 2.2544° E</span>
-        <span>CATALUNYA</span>
+      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+          <span>41.9309° N, 2.2544° E</span>
+          <span>CATALUNYA</span>
+        </div>
+        <LanguageSwitcher />
       </div>
 
       <motion.header
@@ -35,13 +64,13 @@ const CVPage = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0"
       >
-        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">← Tornar a l'inici</Link>
+        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
-          CURRÍCULUM
+          {t('home.title')}
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
-          MARC CASELLAS
+          {t('cv.title')}
         </p>
       </motion.header>
 
@@ -73,7 +102,7 @@ const CVPage = () => {
                   <h3 className="text-lg font-semibold text-white">NetDevOps · Network Automation Engineer</h3>
                   <p className="text-sm font-mono text-[#888] mb-3"><a href="https://adamo.es" target="_blank" rel="noreferrer" className="text-[#FFCC00] hover:underline">@ Adamo Telecom</a> • Dec. 2022 — Present</p>
                   <ul className="space-y-2 text-[#aaa] font-light text-sm list-none">
-                    {/* <li><span className="mr-2">📊</span><strong className="text-[#ddd] font-medium">Data & ML:</strong> Designed ETL pipelines (<strong>ElastiFlow</strong>) and machine learning models for anomaly detection.</li> */}
+                    <li><span className="mr-2">📊</span><strong className="text-[#ddd] font-medium">Data & ML:</strong> Designed ETL pipelines (<strong>ElastiFlow</strong>) and machine learning models for anomaly detection.</li>
                     <li><span className="mr-2">⚙️</span><strong className="text-[#ddd] font-medium">Automation & Cloud:</strong> Process orchestration with <strong>Python</strong> and deployment of microservices in containers (<strong>Docker</strong>) across on-premise and cloud environments (<strong>GCP</strong> / <strong>BigQuery</strong>).</li>
                     <li><span className="mr-2">🖥️</span><strong className="text-[#ddd] font-medium">Monitoring & HA:</strong> Designed <strong>Zabbix</strong> monitoring architectures with reactive and predictive alerting. Management of critical systems (<strong>RADIUS, DHCP, DNS, IPAM</strong>) in high availability (HA).</li>
                     <li><span className="mr-2">🔄</span><strong className="text-[#ddd] font-medium">DevOps & CI/CD:</strong> Implementation of CI/CD cycles and software best practices (Git, documentation) in collaboration with dev and operations teams.</li>
@@ -159,7 +188,7 @@ const CVPage = () => {
                 <div>
                   <h3 className="text-base font-semibold text-white">Photographer <span className="font-normal text-[#888]">@ <a href="https://afvoltreganes.cat" target="_blank" rel="noreferrer" className="text-white hover:underline">AFV</a> (2022 — Present)</span></h3>
                   <ul className="list-disc list-inside text-sm text-[#aaa] font-light mt-2 space-y-1">
-                    <li>Portfolio available at <a href="https://casellas.cat/photos" target="_blank" rel="noreferrer" className="text-[#FFCC00] hover:underline">casellas.cat/photos</a>.</li>
+                    <li>Portfolio available at <a href="https://mcasellas.com" target="_blank" rel="noreferrer" className="text-[#FFCC00] hover:underline">mcasellas.com</a>.</li>
                   </ul>
                 </div>
               </div>
@@ -193,15 +222,109 @@ const CVPage = () => {
   );
 };
 
+// Carreguem les imatges de la carpeta portfolio
+const imageModules = import.meta.glob('/public/images/portfolio/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { eager: true });
+const allPortfolioImages = Object.keys(imageModules).map(key => key.replace('/public', ''));
+
 const PhotosPage = () => {
-  const imageModules = import.meta.glob('/public/images/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { eager: true });
-  const images = Object.keys(imageModules).map(key => key.replace('/public', ''));
+  const { t } = useTranslation();
+  
+  // Barregem les imatges aleatòriament només un cop al muntar el component
+  const [images] = useState(() => [...allPortfolioImages].sort(() => Math.random() - 0.5));
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [exifData, setExifData] = useState<any>(null);
+
+  React.useEffect(() => {
+    if (selectedIndex === null) {
+      setExifData(null);
+      return;
+    }
+    const src = images[selectedIndex];
+    exifr.parse(src).then(data => {
+      setExifData(data || {});
+    }).catch(e => {
+      console.error("Failed to parse EXIF:", e);
+      setExifData({});
+    });
+  }, [selectedIndex, images]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) => prev !== null ? (prev + 1) % images.length : null);
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) => prev !== null ? (prev - 1 + images.length) % images.length : null);
+      } else if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex, images.length]);
+
+  const openImage = (index: number) => {
+    setSelectedIndex(index);
+  };
+
+  const closeImage = () => {
+    setSelectedIndex(null);
+  };
+
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % images.length);
+    }
+  };
+
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
+    }
+  };
+
+  const formatExposureTime = (val: any) => {
+    if (!val) return null;
+    if (val < 1) {
+      return `1/${Math.round(1 / val)}s`;
+    }
+    return `${val}s`;
+  };
+
+  const renderExifValues = () => {
+    if (!exifData) return null;
+    
+    const items = [];
+    if (exifData.Model) items.push({ icon: <Camera size={14} />, value: exifData.Model });
+    if (exifData.FNumber) items.push({ icon: <CircleDot size={14} />, value: `f/${exifData.FNumber}` });
+    if (exifData.ExposureTime) items.push({ icon: <Clock size={14} />, value: formatExposureTime(exifData.ExposureTime) });
+    if (exifData.ISO) items.push({ icon: <Info size={14} />, value: `ISO ${exifData.ISO}` });
+
+    if (items.length === 0) return null;
+
+    return (
+      <div className="flex flex-wrap gap-4 items-center bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-mono text-[#ddd]">
+        {items.map((item, i) => (
+          <div key={i} className="flex items-center gap-1.5">
+            {item.icon}
+            <span>{item.value}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="hidden md:flex absolute top-12 right-12 text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
-        <span>41.9309° N, 2.2544° E</span>
-        <span>CATALUNYA</span>
+      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+          <span>41.9309° N, 2.2544° E</span>
+          <span>CATALUNYA</span>
+        </div>
+        <LanguageSwitcher />
       </div>
 
       <motion.header
@@ -210,13 +333,13 @@ const PhotosPage = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0"
       >
-        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">← Tornar a l'inici</Link>
+        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
-          PORTFOLIO 
+          {t('home.title')}
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
-          FOTOGRAFIA
+          {t('photos.title')}
         </p>
       </motion.header>
 
@@ -229,26 +352,93 @@ const PhotosPage = () => {
            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
           {images.map((src, index) => (
-             <div key={index} className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group">
-                <img src={src} alt={`Photography ${index}`} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
+             <div 
+               key={index} 
+               onClick={() => openImage(index)}
+               onContextMenu={(e) => e.preventDefault()}
+               className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
+              >
+                <img 
+                  src={src} 
+                  alt={`Photography ${index}`} 
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
+                  loading="lazy" 
+                  onDragStart={(e) => e.preventDefault()}
+                />
+                {/* Capa invisible per dificultar la descàrrega */}
+                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
              </div>
           ))}
           {images.length === 0 && (
              <div className="col-span-full py-20 text-center flex flex-col items-center justify-center border border-dashed border-[#333] rounded-sm">
                <span className="text-2xl mb-4">📷</span>
-               <p className="text-[#666] font-mono text-sm max-w-md">No s'han trobat imatges. Afegeix les teves fotos a la carpeta <span className="text-white bg-[#222] px-1 rounded">public/images/</span> per veure-les aquí.</p>
+               <p className="text-[#666] font-mono text-sm max-w-md">
+                 <Trans i18nKey="photos.not_found">
+                   No s'han trobat imatges. Afegeix les teves fotos a la carpeta <span className="text-white bg-[#222] px-1 rounded">public/images/</span> per veure-les aquí.
+                 </Trans>
+               </p>
              </div>
           )}
         </motion.div>
       </main>
 
       <Footer />
+
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 md:p-8"
+            onClick={closeImage}
+          >
+            <button 
+              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-black/50 p-2 rounded-full z-50 cursor-pointer"
+              onClick={closeImage}
+            >
+              <X size={24} />
+            </button>
+            <div className="relative w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              <button 
+                className="absolute left-0 md:left-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50"
+                onClick={prevImage}
+              >
+                <ChevronLeft size={36} />
+              </button>
+              
+              <div className="relative max-w-[85vw] max-h-[80vh] select-none" onContextMenu={(e) => e.preventDefault()}>
+                <img 
+                  src={images[selectedIndex]} 
+                  alt="Expanded photography" 
+                  className="w-full h-full object-contain rounded-sm"
+                  onDragStart={(e) => e.preventDefault()}
+                />
+                {/* Escut invisible sobre la imatge ampliada */}
+                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
+              </div>
+              
+              <button 
+                className="absolute right-0 md:right-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50"
+                onClick={nextImage}
+              >
+                <ChevronRight size={36} />
+              </button>
+              
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full flex justify-center px-4">
+                {renderExifValues()}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 const HomePage = () => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const images = [
     "/images/1.jpg",
@@ -260,9 +450,12 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="hidden md:flex absolute top-12 right-12 text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
-        <span>41.9309° N, 2.2544° E</span>
-        <span>CATALUNYA</span>
+      <div className="absolute top-8 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+        <div className="hidden md:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+          <span>41.9309° N, 2.2544° E</span>
+          <span>CATALUNYA</span>
+        </div>
+        <LanguageSwitcher />
       </div>
 
       <motion.header
@@ -271,12 +464,10 @@ const HomePage = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0"
       >
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
-          MARC<br/>CASELLAS
-        </h1>
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
-          ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO
+          {t('home.subtitle')}
         </p>
       </motion.header>
 
@@ -289,13 +480,15 @@ const HomePage = () => {
         >
           <div className="space-y-6 mb-10 lg:mb-15">
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya. 
+              {t('home.p1')}
             </p>
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              Sóc <span className="text-white font-medium">enginyer informàtic</span> de professió, especialitzat en NetDevOps, monitoratge i automatització.
+              <Trans i18nKey="home.p2">
+                Sóc <span className="text-white font-medium">enginyer informàtic</span> de professió, especialitzat en NetDevOps, monitoratge i automatització.
+              </Trans>
             </p>
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de carrer, viatge i paisatge, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.
+              {t('home.p3')}
             </p>
           </div>
 
@@ -303,23 +496,23 @@ const HomePage = () => {
             <nav className="flex flex-col gap-3 font-mono text-sm">
               <Link to="/cv" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
-                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}>CURRÍCULUM</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">NETDEVOPS →</span>
+                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}>{t('home.links.cv')}</span> 
+                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.cv_desc')}</span>
               </Link>
               <Link to="/photos" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
-                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}>FOTOGRAFIA</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">PORTFOLIO →</span>
+                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}>{t('home.links.photos')}</span> 
+                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.photos_desc')}</span>
               </Link>
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
-                <span className="text-white">ENDRAMALIATS</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">PODCAST →</span>
+                <span className="text-white">{t('home.links.podcast')}</span> 
+                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.podcast_desc')}</span>
               </a>
             </nav>
 
             <div className="pt-4">
-              <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest">Segueix-me a ...</span>
+              <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest">{t('home.follow')}</span>
               <div className="flex flex-wrap gap-6 text-[11px] font-mono tracking-widest uppercase text-[#666]">
                 <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Instagram</a>
                 <a href="https://twitter.com/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">X</a>
@@ -338,41 +531,41 @@ const HomePage = () => {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-7 h-[600px] lg:h-[auto] min-h-[400px] grid grid-cols-2 grid-rows-3 gap-3"
         >
-          <div className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
+          <Link to="/photos" className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
             <img src={images[0]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              Tradicions
+              {t('home.tags.traditions')}
             </div>
-          </div>
-          <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
+          </Link>
+          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
             <img src={images[1]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              Natura
+              {t('home.tags.nature')}
             </div>
-          </div>
-          <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
+          </Link>
+          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
             <img src={images[2]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              Viatge
+              {t('home.tags.travel')}
             </div>
-          </div>
-          <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
+          </Link>
+          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
             <img src={images[3]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              Street Photograpy 
+              {t('home.tags.street')}
             </div>
-          </div>
-          <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
+          </Link>
+          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
             <img src={images[4]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              Catalunya
+              {t('home.tags.catalonia')}
             </div>
-          </div>
+          </Link>
         </motion.div>
       </main>
 
@@ -385,13 +578,15 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cv" element={<CVPage />} />
-        <Route path="/photos" element={<PhotosPage />} />
-      </Routes>
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cv" element={<CVPage />} />
+          <Route path="/photos" element={<PhotosPage />} />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 }
 

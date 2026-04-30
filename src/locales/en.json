@@ -1,0 +1,39 @@
+{
+  "home": {
+    "title": "MARC\nCASELLAS",
+    "subtitle": "COMPUTER ENGINEER (UPC) / PHOTOGRAPHY / RADIO",
+    "p1": "Hi, I'm Marc. Born in Osona, Catalonia.",
+    "p2": "I'm a <1>computer engineer</1> by profession, specialized in NetDevOps, monitoring and automation.",
+    "p3": "Outside the technical field, I'm passionate about capturing and telling stories. I do it through photography, specially street, travel and landscape photography, and also from the radio. This space collects a part of this more personal and creative side.",
+    "links": {
+      "cv": "RESUME",
+      "cv_desc": "NETDEVOPS →",
+      "photos": "PHOTOGRAPHY",
+      "photos_desc": "PORTFOLIO →",
+      "podcast": "ENDRAMALIATS",
+      "podcast_desc": "PODCAST →"
+    },
+    "follow": "Follow me on ...",
+    "tags": {
+      "traditions": "Traditions",
+      "nature": "Nature",
+      "travel": "Travel",
+      "street": "Street",
+      "catalonia": "Catalonia",
+      "city": "City",
+      "portrait": "Portrait"
+    }
+  },
+  "footer": {
+    "interests_title": "Interests",
+    "interests_desc": "Photography • Radio • NetDevOps",
+    "back_to_home": "← Back to home"
+  },
+  "cv": {
+    "title": "RESUME"
+  },
+  "photos": {
+    "title": "PHOTOGRAPHY PORTFOLIO",
+    "not_found": "No images found. Add your photos to the <1>public/images/</1> folder to see them here."
+  }
+}

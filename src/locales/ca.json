@@ -1,0 +1,39 @@
+{
+  "home": {
+    "title": "MARC\nCASELLAS",
+    "subtitle": "ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO",
+    "p1": "Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya.",
+    "p2": "Sóc <1>enginyer informàtic</1> de professió, especialitzat en NetDevOps, monitoratge i automatització.",
+    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de carrer, viatge i paisatge, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
+    "links": {
+      "cv": "CURRÍCULUM",
+      "cv_desc": "NETDEVOPS →",
+      "photos": "FOTOGRAFIA",
+      "photos_desc": "PORTFOLIO →",
+      "podcast": "ENDRAMALIATS",
+      "podcast_desc": "PODCAST →"
+    },
+    "follow": "Segueix-me a ...",
+    "tags": {
+      "traditions": "Tradicions",
+      "nature": "Natura",
+      "travel": "Viatge",
+      "street": "Street",
+      "catalonia": "Catalunya",
+      "city": "Ciutat",
+      "portrait": "Retrat"
+    }
+  },
+  "footer": {
+    "interests_title": "Interessos",
+    "interests_desc": "Fotografia • Ràdio • NetDevOps",
+    "back_to_home": "← Tornar a l'inici"
+  },
+  "cv": {
+    "title": "CURRÍCULUM"
+  },
+  "photos": {
+    "title": "PORTFOLIO FOTOGRÀFIC",
+    "not_found": "No s'han trobat imatges. Afegeix les teves fotos a la carpeta <1>public/images/</1> per veure-les aquí."
+  }
+}
