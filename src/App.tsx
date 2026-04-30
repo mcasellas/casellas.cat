@@ -28,7 +28,7 @@ export default function App() {
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
-          ENGINYER INFORMÀTIC (UPC)
+          ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO
         </p>
       </motion.header>
 
@@ -41,10 +41,13 @@ export default function App() {
         >
           <div className="space-y-6 mb-10 lg:mb-15">
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya. Sóc <span className="text-white font-medium">enginyer informàtic</span> de professió i un apassionat de la ràdio i la fotografia.
+              Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya. 
             </p>
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              A través de la fotografia de carrer i de viatge busco capturar instants espontanis i històries úniques, sense deixar de banda la calma i la bellesa de la fotografia de paisatge. Aquest espai és una petita mostra del meu univers visual, a mode de portfolio.
+              Sóc <span className="text-white font-medium">enginyer informàtic</span> de professió, especialitzat en NetDevOps, monitoratge i automatització.
+            </p>
+            <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
+              Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de carrer, viatge i paisatge, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.
             </p>
           </div>
 
@@ -52,13 +55,18 @@ export default function App() {
             <nav className="flex flex-col gap-3 font-mono text-sm">
               <a href="https://marc.casellas.cat" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">01</span> 
-                <span className="text-white">MARC.CASELLAS.CAT</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">CV →</span>
+                <span className="text-white">CURRÍCULUM</span> 
+                <span className="text-[#444] group-hover:text-white transition-colors">NETDEVOPS →</span>
               </a>
               <a href="https://photos.casellas.cat" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">02</span> 
-                <span className="text-white">PHOTOS.CASELLAS.CAT</span> 
+                <span className="text-white">FOTOGRAFIA</span> 
                 <span className="text-[#444] group-hover:text-white transition-colors">PORTFOLIO →</span>
+              </a>
+              <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
+                <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
+                <span className="text-white">ENDRAMALIATS</span> 
+                <span className="text-[#444] group-hover:text-white transition-colors">PODCAST →</span>
               </a>
             </nav>
 
@@ -66,7 +74,7 @@ export default function App() {
               <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest">Segueix-me a ...</span>
               <div className="flex flex-wrap gap-6 text-[11px] font-mono tracking-widest uppercase text-[#666]">
                 <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                <a href="https://twitter.com/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter</a>
+                <a href="https://twitter.com/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">X</a>
                 <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
                 <a href="https://github.com/mcasellas" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
               </div>
