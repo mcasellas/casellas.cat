@@ -3,11 +3,11 @@ import { motion } from 'motion/react';
 
 export default function App() {
   const images = [
-    "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Coast/Catalonia vibe
-    "https://images.unsplash.com/photo-1542051812871-757508250f16?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Photography/vintage
-    "https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Nature/forest
-    "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Street/Barcelona vibe
-    "https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"  // Landscape/mountains
+    "/src/images/1.jpg", // Coast/Catalonia vibe
+    "/src/images/2.jpg", // Photography/vintage
+    "/src/images/3.jpg", // Nature/forest
+    "/src/images/4.jpg", // Street/Barcelona vibe
+    "/src/images/5.jpg"  // Landscape/mountains
   ];
 
   return (
