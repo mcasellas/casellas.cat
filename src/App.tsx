@@ -39,7 +39,7 @@ export default function App() {
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 flex flex-col justify-between border-t border-[#222] pt-8"
         >
-          <div className="space-y-6 mb-20 lg:mb-32">
+          <div className="space-y-6 mb-10 lg:mb-15">
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
               Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya. Sóc <span className="text-white font-medium">enginyer informàtic</span> de professió i un apassionat de la ràdio i la fotografia.
             </p>
@@ -84,35 +84,35 @@ export default function App() {
             <img src={images[0]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              COASTAL_01.JPG
+              Tradicions
             </div>
           </div>
           <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
             <img src={images[1]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              ANALOG_02.JPG
+              Natura
             </div>
           </div>
           <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
             <img src={images[2]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              NATURE_03.JPG
+              Viatge
             </div>
           </div>
           <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
             <img src={images[3]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              STREET_04.JPG
+              Street Photograpy 
             </div>
           </div>
           <div className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group">
             <img src={images[4]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
             <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              MOUNTAIN_05.JPG
+              Catalunya
             </div>
           </div>
         </motion.div>
