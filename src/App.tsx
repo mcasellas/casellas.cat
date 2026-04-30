@@ -233,10 +233,13 @@ const PhotosPage = () => {
   // Barregem les imatges aleatòriament només un cop al muntar el component
   const [images] = useState(() => {
     const shuffled = [...allPortfolioThumbs].sort(() => Math.random() - 0.5);
-    return shuffled.map(thumbPath => ({
+    const mapped = shuffled.map(thumbPath => ({
       thumb: thumbPath,
       full: thumbPath.replace('/thumbs/', '/fulls/')
     }));
+    // Assegurem que el número de fotos sigui múltiple de 4 per no deixar buits a la graella
+    const count = Math.floor(mapped.length / 4) * 4;
+    return mapped.slice(0, count);
   });
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
