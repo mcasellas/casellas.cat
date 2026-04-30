@@ -30,7 +30,95 @@
     "back_to_home": "← Back to home"
   },
   "cv": {
-    "title": "RESUME"
+    "title": "RESUME",
+    "status": "CURRENTLY",
+    "about": {
+      "title": "About Me",
+      "p1": "Computer Engineer (UPC) specialized in <1>infrastructure monitoring, automation</1> and the deployment of critical services (<3>NetDevOps</3>). Strong background in <5>Python</5> and <7>Cloud environments (GCP/Docker)</7>. Passionate about observability, operational efficiency, and network security.",
+      "p2": "Based in Osona, Barcelona (Catalonia)."
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "present": "Present",
+      "adamo": {
+        "role": "NetDevOps · Network Automation Engineer",
+        "company": "Adamo Telecom",
+        "date": "Dec. 2022 — Present",
+        "items": [
+          "<1>Automation & Cloud:</1> Process orchestration with <strong>Python</strong> and deployment of microservices in containers (<strong>Docker</strong>) across on-premise and cloud environments (<strong>GCP / BigQuery</strong>).",
+          "<1>Monitoring & HA:</1> Designed <strong>Zabbix</strong> monitoring architectures with reactive and predictive alerting. Management of critical systems (<strong>RADIUS, DHCP, DNS, IPAM</strong>) in high availability (HA).",
+          "<1>DevOps & CI/CD:</1> Implementation of CI/CD cycles and software best practices (Git, documentation) in collaboration with dev and operations teams.",
+          "<1>Cybersecurity:</1> Deployment and policy definition for perimeter firewalls (<strong>NGFW</strong>).",
+          "<1>Homologation:</1> CPE equipment testing and validation before production rollout."
+        ]
+      },
+      "vera": {
+        "role": "Network Engineer",
+        "company": "Vera",
+        "date": "Aug. 2022 — Dec. 2022",
+        "items": [
+          "Design of the new network architecture and definition of technical standards.",
+          "Improved observability through data homogenization in <strong>Zabbix</strong>.",
+          "Topology and routing design, GPON troubleshooting, and XGSPON homologation."
+        ]
+      },
+      "adamo_noc": {
+        "role": "NOC / Network Delivery Engineer",
+        "company": "Adamo Telecom",
+        "date": "Jun. 2019 — Aug. 2022",
+        "items": [
+          "<1>Delivery:</1> Integration of new nodes, DWDM migrations, M&A network integrations, and PoP deployments.",
+          "<1>NOC:</1> Resolution of critical CORE network incidents (Tier 3) and support for enterprise clients (FiberOffice, EVPN, IP-Transit).",
+          "Proactive monitoring with <strong>Zabbix</strong> and <strong>Nagios</strong>."
+        ]
+      }
+    },
+    "skills": {
+      "title": "Technical Skills",
+      "development": "Development",
+      "infrastructure": "Infrastructure",
+      "cloud": "Cloud & Systems",
+      "networking": "Networking",
+      "vendors": "Vendors"
+    },
+    "education": {
+      "title": "Education",
+      "degree": "B.S. in Computer Engineering",
+      "university": "Universitat Politècnica de Catalunya (UPC)",
+      "date": "Sep. 2016 — Jan. 2021",
+      "major": "Major in Information Technology (IT)",
+      "thesis": "<1>Thesis:</1> <3>QoS implementation in an ISP</3> – Implementation of quality of service policies for residential traffic."
+    },
+    "volunteering": {
+      "title": "Projects & Volunteering",
+      "radio": {
+        "role": "Sysadmin / Radio Speaker",
+        "company": "Ràdio Voltregà",
+        "date": "2010 — Present",
+        "item1": "Server administration (streaming, broadcasting) and network maintenance.",
+        "item2": "Automation: Developed a distributed contribution system for remote users.",
+        "item3": "Co-host of the show <em>Endramaliats</em>."
+      },
+      "photography": {
+        "role": "Photographer",
+        "company": "AFV",
+        "date": "2022 — Present",
+        "item1": "Portfolio available at <1>mcasellas.com</1>."
+      }
+    },
+    "languages": {
+      "title": "Languages",
+      "catalan": "Catalan",
+      "spanish": "Spanish",
+      "english": "English",
+      "native": "Native",
+      "advanced": "Advanced (B2)"
+    },
+    "others": {
+      "title": "Others",
+      "driving": "Driving License",
+      "license_b": "B"
+    }
   },
   "photos": {
     "title": "PHOTOGRAPHY PORTFOLIO",

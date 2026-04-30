@@ -30,7 +30,95 @@
     "back_to_home": "← Tornar a l'inici"
   },
   "cv": {
-    "title": "CURRÍCULUM"
+    "title": "CURRÍCULUM",
+    "status": "ACTUALMENT",
+    "about": {
+      "title": "Sobre mi",
+      "p1": "Enginyer Informàtic (UPC) especialitzat en <1>monitoratge d'infraestructures, automatització</1> i el desplegament de serveis crítics (<3>NetDevOps</3>). Amb una sòlida base en <5>Python</5> i <7>entorns Cloud (GCP/Docker)</7>. Apassionat per l'observabilitat, l'eficiència operativa i la seguretat de xarxa.",
+      "p2": "Residint a Osona, Barcelona (Catalunya)."
+    },
+    "experience": {
+      "title": "Experiència Professional",
+      "present": "Actualitat",
+      "adamo": {
+        "role": "NetDevOps · Network Automation Engineer",
+        "company": "Adamo Telecom",
+        "date": "Des. 2022 — Present",
+        "items": [
+          "<1>Automatització & Cloud:</1> Orquestració de processos amb <strong>Python</strong> i desplegament de microserveis en contenidors (<strong>Docker</strong>) en entorns on-premise i cloud (<strong>GCP / BigQuery</strong>).",
+          "<1>Monitoratge & HA:</1> Disseny d'arquitectures de monitoratge <strong>Zabbix</strong> amb alertat reactiu i predictiu. Gestió de sistemes crítics (<strong>RADIUS, DHCP, DNS, IPAM</strong>) en alta disponibilitat (HA).",
+          "<1>DevOps & CI/CD:</1> Implementació de cicles CI/CD i bones pràctiques de software (Git, documentació) en col·laboració amb els equips de dev i operacions.",
+          "<1>Ciberseguretat:</1> Desplegament i definició de polítiques per a firewalls de perímetre (<strong>NGFW</strong>).",
+          "<1>Homologació:</1> Proves i validació d'equips CPE abans del desplegament en producció."
+        ]
+      },
+      "vera": {
+        "role": "Network Engineer",
+        "company": "Vera",
+        "date": "Ago. 2022 — Des. 2022",
+        "items": [
+          "Disseny de la nova arquitectura de xarxa i definició d'estàndards tècnics.",
+          "Millora de l'observabilitat mitjançant l'homogeneïtzació de dades a <strong>Zabbix</strong>.",
+          "Disseny de topologia i rutes, resolució d'incidències GPON i homologació XGSPON."
+        ]
+      },
+      "adamo_noc": {
+        "role": "NOC / Network Delivery Engineer",
+        "company": "Adamo Telecom",
+        "date": "Juny 2019 — Ago. 2022",
+        "items": [
+          "<1>Delivery:</1> Integració de nous nodes, migracions DWDM, integracions de xarxes M&A i desplegaments de PoP.",
+          "<1>NOC:</1> Resolució d'incidències crítiques de xarxa CORE (Tier 3) i suport a clients d'empresa (FiberOffice, EVPN, IP-Transit).",
+          "Monitoratge proactiu amb <strong>Zabbix</strong> i <strong>Nagios</strong>."
+        ]
+      }
+    },
+    "skills": {
+      "title": "Habilitats Tècniques",
+      "development": "Desenvolupament",
+      "infrastructure": "Infraestructura",
+      "cloud": "Cloud & Sistemes",
+      "networking": "Xarxes",
+      "vendors": "Fabricants"
+    },
+    "education": {
+      "title": "Educació",
+      "degree": "Grau en Enginyeria Informàtica",
+      "university": "Universitat Politècnica de Catalunya (UPC)",
+      "date": "Set. 2016 — Gen. 2021",
+      "major": "Menció en Tecnologies de la Informació (TI)",
+      "thesis": "<1>Tesi:</1> <3>Implementació de QoS en un ISP</3> – Implementació de polítiques de qualitat de servei per al tràfic residencial."
+    },
+    "volunteering": {
+      "title": "Projectes & Voluntariat",
+      "radio": {
+        "role": "Sysadmin / Locutor de ràdio",
+        "company": "Ràdio Voltregà",
+        "date": "2010 — Actualitat",
+        "item1": "Administració de servidors (streaming, emissió) i manteniment de xarxa.",
+        "item2": "Automatització: Desenvolupament d'un sistema de contribució distribuït per a usuaris remots.",
+        "item3": "Co-presentador del programa <em>Endramaliats</em>."
+      },
+      "photography": {
+        "role": "Fotògraf",
+        "company": "AFV",
+        "date": "2022 — Actualitat",
+        "item1": "Portfolio disponible a <1>mcasellas.com</1>."
+      }
+    },
+    "languages": {
+      "title": "Idiomes",
+      "catalan": "Català",
+      "spanish": "Castellà",
+      "english": "Anglès",
+      "native": "Natiu",
+      "advanced": "Avançat (B2)"
+    },
+    "others": {
+      "title": "Altres",
+      "driving": "Carnet de conduir",
+      "license_b": "B"
+    }
   },
   "photos": {
     "title": "PORTFOLIO FOTOGRÀFIC",
