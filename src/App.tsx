@@ -222,15 +222,22 @@ const CVPage = () => {
   );
 };
 
-// Carreguem les imatges de la carpeta portfolio
-const imageModules = import.meta.glob('/public/images/portfolio/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { eager: true });
-const allPortfolioImages = Object.keys(imageModules).map(key => key.replace('/public', ''));
+// Carreguem els thumbs de la carpeta portfolio per a la graella
+const thumbModules = import.meta.glob('/public/images/portfolio/thumbs/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { eager: true });
+const allPortfolioThumbs = Object.keys(thumbModules).map(key => key.replace('/public', ''));
 
 const PhotosPage = () => {
   const { t } = useTranslation();
   
+  // Creem una llista d'objectes amb la ruta del thumb i de la imatge completa
   // Barregem les imatges aleatòriament només un cop al muntar el component
-  const [images] = useState(() => [...allPortfolioImages].sort(() => Math.random() - 0.5));
+  const [images] = useState(() => {
+    const shuffled = [...allPortfolioThumbs].sort(() => Math.random() - 0.5);
+    return shuffled.map(thumbPath => ({
+      thumb: thumbPath,
+      full: thumbPath.replace('/thumbs/', '/fulls/')
+    }));
+  });
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exifData, setExifData] = useState<any>(null);
@@ -240,8 +247,8 @@ const PhotosPage = () => {
       setExifData(null);
       return;
     }
-    const src = images[selectedIndex];
-    exifr.parse(src).then(data => {
+    const fullSrc = images[selectedIndex].full;
+    exifr.parse(fullSrc).then(data => {
       setExifData(data || {});
     }).catch(e => {
       console.error("Failed to parse EXIF:", e);
@@ -351,7 +358,7 @@ const PhotosPage = () => {
            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
-          {images.map((src, index) => (
+          {images.map((img, index) => (
              <div 
                key={index} 
                onClick={() => openImage(index)}
@@ -359,7 +366,7 @@ const PhotosPage = () => {
                className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
               >
                 <img 
-                  src={src} 
+                  src={img.thumb} 
                   alt={`Photography ${index}`} 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
                   loading="lazy" 
@@ -409,7 +416,7 @@ const PhotosPage = () => {
               
               <div className="relative max-w-[85vw] max-h-[80vh] select-none" onContextMenu={(e) => e.preventDefault()}>
                 <img 
-                  src={images[selectedIndex]} 
+                  src={images[selectedIndex].full} 
                   alt="Expanded photography" 
                   className="w-full h-full object-contain rounded-sm"
                   onDragStart={(e) => e.preventDefault()}
