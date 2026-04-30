@@ -3,11 +3,11 @@ import { motion } from 'motion/react';
 
 export default function App() {
   const images = [
-    "/src/images/1.jpg", // Coast/Catalonia vibe
-    "/src/images/2.jpg", // Photography/vintage
-    "/src/images/3.jpg", // Nature/forest
-    "/src/images/4.jpg", // Street/Barcelona vibe
-    "/src/images/5.jpg"  // Landscape/mountains
+    "/images/1.jpg",
+    "/images/2.jpg",
+    "/images/3.jpg",
+    "/images/4.jpg",
+    "/images/5.jpg"
   ];
 
   return (

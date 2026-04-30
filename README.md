@@ -1,20 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Marc Casellas - Portfolio
 
-# Run and deploy your AI Studio app
+Aquest és el codi font del meu portfolio personal. Inclou seccions sobre la meva feina com a enginyer informàtic, la meva passió per la ràdio i una galeria fotogràfica.
 
-This contains everything you need to run your app locally.
+## Tecnologies utilitzades
 
-View your app in AI Studio: https://ai.studio/apps/f5869887-8c67-4c06-9146-ed37da05b490
+- **React 19**
+- **Vite**
+- **Tailwind CSS**
+- **Framer Motion** (animacions)
 
-## Run Locally
+## Com provar-ho en local
 
-**Prerequisites:**  Node.js
+1. **Instal·la les dependències:**
+   ```bash
+   npm install
+   ```
 
+2. **Executa el servidor de desenvolupament:**
+   ```bash
+   npm run dev
+   ```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+3. **Obre el navegador:**
+   Ves a `http://localhost:3000`
+
+## Estructura del projecte
+
+- `/public/images`: Conté les fotografies del portfolio.
+- `/src`: Codi font de l'aplicació.
+- `App.tsx`: Component principal amb el disseny i la lògica.
