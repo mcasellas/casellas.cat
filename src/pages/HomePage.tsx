@@ -81,6 +81,7 @@ export const HomePage = () => {
                 <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.photos_desc')}</span>
               </Link>
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
+              <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
                 <span className="text-white">{t('home.links.podcast')}</span> 
                 <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.podcast_desc')}</span>
@@ -90,10 +91,10 @@ export const HomePage = () => {
             <div className="pt-4">
               <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest">{t('home.follow')}</span>
               <div className="flex flex-wrap gap-6 text-[11px] font-mono tracking-widest uppercase text-[#666]">
-                <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                <a href="https://twitter.com/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">X</a>
-                <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-                <a href="https://github.com/mcasellas" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
+                <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
+                <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X</a>
+                <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+                <a href="https://github.com/mcasellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
               </div>
             </div>
           </div>
@@ -130,7 +131,7 @@ export const HomePage = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 src={images[0]} 
-                alt={`${t('home.tags.traditions')} - Photography by Marc`} 
+                alt={`${t('home.tags.traditions')} - Photography by Marc Casellas`} 
                 className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
               />
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -163,7 +164,7 @@ export const HomePage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   src={item.img} 
-                  alt={`${item.tag} - Photography by Marc`} 
+                  alt={`${item.tag} - Photography by Marc Casellas`} 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
                 />
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>

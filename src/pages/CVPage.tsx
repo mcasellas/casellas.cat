@@ -69,7 +69,7 @@ export const CVPage = () => {
                 <div className="relative pl-4 border-l border-[#333]">
                   <div className="absolute w-2 h-2 bg-[#FFCC00] rounded-full -left-[4.5px] top-2"></div>
                   <h3 className="text-lg font-semibold text-white">{t('cv.experience.adamo.role')}</h3>
-                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://adamo.es" target="_blank" rel="noreferrer" className="text-[#FFCC00] hover:underline">@ {t('cv.experience.adamo.company')}</a> • {t('cv.experience.adamo.date')}</p>
+                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://adamo.es" target="_blank" rel="noopener noreferrer" className="text-[#FFCC00] hover:underline">@ {t('cv.experience.adamo.company')}</a> • {t('cv.experience.adamo.date')}</p>
                   <ul className="space-y-2 text-[#aaa] font-light text-sm list-none">
                     {(t('cv.experience.adamo.items', { returnObjects: true }) as string[]).map((item, i) => (
                       <li key={i}>
@@ -85,7 +85,7 @@ export const CVPage = () => {
                 <div className="relative pl-4 border-l border-[#333]">
                   <div className="absolute w-2 h-2 bg-[#555] rounded-full -left-[4.5px] top-2"></div>
                   <h3 className="text-lg font-semibold text-white">{t('cv.experience.vera.role')}</h3>
-                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://somvera.cat" target="_blank" rel="noreferrer" className="text-white hover:underline">@ {t('cv.experience.vera.company')}</a> • {t('cv.experience.vera.date')}</p>
+                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://somvera.cat" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">@ {t('cv.experience.vera.company')}</a> • {t('cv.experience.vera.date')}</p>
                   <ul className="space-y-2 text-[#aaa] font-light text-sm list-none">
                     {(t('cv.experience.vera.items', { returnObjects: true }) as string[]).map((item, i) => (
                       <li key={i}>
@@ -101,7 +101,7 @@ export const CVPage = () => {
                 <div className="relative pl-4 border-l border-[#333]">
                   <div className="absolute w-2 h-2 bg-[#555] rounded-full -left-[4.5px] top-2"></div>
                   <h3 className="text-lg font-semibold text-white">{t('cv.experience.adamo_noc.role')}</h3>
-                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://adamo.es" target="_blank" rel="noreferrer" className="text-white hover:underline">@ {t('cv.experience.adamo_noc.company')}</a> • {t('cv.experience.adamo_noc.date')}</p>
+                  <p className="text-sm font-mono text-[#888] mb-3"><a href="https://adamo.es" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">@ {t('cv.experience.adamo_noc.company')}</a> • {t('cv.experience.adamo_noc.date')}</p>
                   <ul className="space-y-2 text-[#aaa] font-light text-sm list-none">
                     {(t('cv.experience.adamo_noc.items', { returnObjects: true }) as string[]).map((item, i) => (
                       <li key={i}>
@@ -148,11 +148,11 @@ export const CVPage = () => {
               <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-t border-[#333] pt-8"><span className="text-xl">🎓</span> {t('cv.education.title')}</h2>
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-white">{t('cv.education.degree')}</h3>
-                <p className="text-sm font-mono text-[#888] mb-2"><a href="https://www.upc.edu" target="_blank" rel="noreferrer" className="text-white hover:underline">{t('cv.education.university')}</a> • {t('cv.education.date')}</p>
+                <p className="text-sm font-mono text-[#888] mb-2"><a href="https://www.upc.edu" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">{t('cv.education.university')}</a> • {t('cv.education.date')}</p>
                 <p className="text-sm text-[#aaa] font-light italic mb-2">{t('cv.education.major')}</p>
                 <p className="text-[#aaa] font-light text-sm">
                   <Trans i18nKey="cv.education.thesis">
-                    <strong className="text-[#ddd] font-medium">Thesis:</strong> <a href="https://upcommons.upc.edu/handle/2117/344879" target="_blank" rel="noreferrer" className="text-[#FFCC00] hover:underline">QoS implementation in an ISP</a> – Implementation of quality of service policies for residential traffic.
+                    <strong className="text-[#ddd] font-medium">Thesis:</strong> <a href="https://upcommons.upc.edu/handle/2117/344879" target="_blank" rel="noopener noreferrer" className="text-[#FFCC00] hover:underline">QoS implementation in an ISP</a> – Implementation of quality of service policies for residential traffic.
                   </Trans>
                 </p>
               </div>
@@ -163,7 +163,7 @@ export const CVPage = () => {
               <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 border-t border-[#333] pt-8"><span className="text-xl">📻</span> {t('cv.volunteering.title')}</h2>
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-semibold text-white">{t('cv.volunteering.radio.role')} <span className="font-normal text-[#888]">@ <a href="https://radiovoltrega.com" target="_blank" rel="noreferrer" className="text-white hover:underline">Ràdio Voltregà</a> ({t('cv.volunteering.radio.date')})</span></h3>
+                  <h3 className="text-base font-semibold text-white">{t('cv.volunteering.radio.role')} <span className="font-normal text-[#888]">@ <a href="https://radiovoltrega.com" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">Ràdio Voltregà</a> ({t('cv.volunteering.radio.date')})</span></h3>
                   <ul className="list-disc list-inside text-sm text-[#aaa] font-light mt-2 space-y-1">
                     <li>{t('cv.volunteering.radio.item1')}</li>
                     <li>{t('cv.volunteering.radio.item2')}</li>
@@ -171,7 +171,7 @@ export const CVPage = () => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-base font-semibold text-white">{t('cv.volunteering.photography.role')} <span className="font-normal text-[#888]">@ <a href="https://afvoltreganes.cat" target="_blank" rel="noreferrer" className="text-white hover:underline">AFV</a> ({t('cv.volunteering.photography.date')})</span></h3>
+                  <h3 className="text-base font-semibold text-white">{t('cv.volunteering.photography.role')} <span className="font-normal text-[#888]">@ <a href="https://afvoltreganes.cat" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">AFV</a> ({t('cv.volunteering.photography.date')})</span></h3>
                   <ul className="list-disc list-inside text-sm text-[#aaa] font-light mt-2 space-y-1">
                     <li><Trans i18nKey="cv.volunteering.photography.item1">Portfolio available at <Link to="/photos" className="text-[#FFCC00] hover:underline">photos</Link>.</Trans></li>
                   </ul>

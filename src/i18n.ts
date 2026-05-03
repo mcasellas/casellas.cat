@@ -17,4 +17,14 @@ i18n
     }
   });
 
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.lang = lng;
+  // Update Title and Meta Description for SEO
+  document.title = i18n.t('seo.title');
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute('content', i18n.t('seo.description'));
+  }
+});
+
 export default i18n;
