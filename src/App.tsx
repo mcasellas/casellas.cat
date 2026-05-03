@@ -78,6 +78,7 @@ const CVPage = () => {
       <motion.header
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
@@ -95,7 +96,7 @@ const CVPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+          exit={{ opacity: 0, transition: { duration: 0.4 } }}
           transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="bg-[#111] rounded-sm p-6 md:p-10 border border-[#222] font-sans text-[#ddd] w-full"
         >
@@ -395,6 +396,7 @@ const PhotosPage = () => {
       <motion.header
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
@@ -412,7 +414,7 @@ const PhotosPage = () => {
         <motion.div
            initial={{ opacity: 0, y: 15 }}
            animate={{ opacity: 1, y: 0 }}
-           exit={{ opacity: 0, y: -10 }}
+           exit={{ opacity: 0, transition: { duration: 0.4 } }}
            transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
@@ -538,6 +540,7 @@ const HomePage = () => {
       <motion.header
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
