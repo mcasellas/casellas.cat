@@ -80,7 +80,6 @@ export const HomePage = () => {
                 <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}>{t('home.links.photos')}</span> 
                 <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.photos_desc')}</span>
               </Link>
-              <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
                 <span className="text-white">{t('home.links.podcast')}</span> 
