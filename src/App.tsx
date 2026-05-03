@@ -23,8 +23,31 @@ const LanguageSwitcher = ({ className = "" }: { className?: string }) => {
       className={`bg-[#1a1a1a]/80 backdrop-blur-sm border border-[#333] text-[#888] hover:text-white px-3 py-1.5 rounded-full font-mono text-[10px] flex items-center gap-2 transition-colors uppercase tracking-widest cursor-pointer ${className}`}
     >
       <Globe size={12} />
-      {i18n.language === 'ca' ? 'EN' : 'CA'}
+      {i18n.language.startsWith('ca') ? 'CA' : 'EN'}
     </button>
+  );
+};
+
+const StatusDot = ({ delay = 1.5 }: { delay?: number }) => {
+  const [visible, setVisible] = useState(false);
+  React.useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), delay * 1000);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  if (!visible) return <div className="w-2 h-2" />;
+
+  return (
+    <motion.span 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0.4, 1, 0.4] }}
+      transition={{ 
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      className="w-2 h-2 rounded-full bg-[#FFCC00]"
+    />
   );
 };
 
@@ -65,7 +88,12 @@ const CVPage = () => {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50"
+      >
         <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
@@ -73,13 +101,13 @@ const CVPage = () => {
         <div className="hidden md:block">
           <LanguageSwitcher />
         </div>
-      </div>
+      </motion.div>
 
       <motion.header
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
@@ -87,14 +115,14 @@ const CVPage = () => {
           <Trans i18nKey="home.title" />
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
+          <StatusDot delay={0.8} />
           {t('cv.title')}
         </p>
       </motion.header>
 
       <main className="flex-grow w-full max-w-none">
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, transition: { duration: 0.4 } }}
           transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -383,7 +411,12 @@ const PhotosPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50"
+      >
         <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
@@ -391,13 +424,13 @@ const PhotosPage = () => {
         <div className="hidden md:block">
           <LanguageSwitcher />
         </div>
-      </div>
+      </motion.div>
 
       <motion.header
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
@@ -405,14 +438,14 @@ const PhotosPage = () => {
           {t('home.title')}
         </h1>
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
+          <StatusDot delay={0.8} />
           {t('photos.title')}
         </p>
       </motion.header>
 
       <main className="flex-grow w-full max-w-none">
         <motion.div
-           initial={{ opacity: 0, y: 15 }}
+           initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
            exit={{ opacity: 0, transition: { duration: 0.4 } }}
            transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -527,7 +560,12 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <div className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50"
+      >
         <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>CATALUNYA</span>
@@ -535,25 +573,25 @@ const HomePage = () => {
         <div className="hidden md:block">
           <LanguageSwitcher />
         </div>
-      </div>
+      </motion.div>
 
       <motion.header
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
-        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-6 md:mb-10 mt-8 md:mt-0 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
         <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[#FFCC00] animate-pulse"></span> 
+          <StatusDot delay={0.8} />
           {t('home.subtitle')}
         </p>
       </motion.header>
 
       <main className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-12">
         <motion.div 
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-5 flex flex-col justify-between border-t border-[#222] pt-8"
@@ -620,7 +658,7 @@ const HomePage = () => {
         >
           <motion.div 
             variants={{
-              hidden: { opacity: 0, scale: 0.98, y: 15 },
+              hidden: { opacity: 0, scale: 0.95, y: 30 },
               show: { opacity: 1, scale: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
             }}
             className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
@@ -636,7 +674,6 @@ const HomePage = () => {
                 src={images[0]} 
                 alt="Photography by Marc" 
                 className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
-                loading="lazy" 
               />
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
@@ -654,8 +691,8 @@ const HomePage = () => {
             <motion.div 
               key={i}
               variants={{
-                hidden: { opacity: 0, scale: 0.98, y: 15 },
-                show: { opacity: 1, scale: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
+                hidden: { opacity: 0, scale: 0.95, y: 30 },
+                show: { opacity: 1, scale: 1, y: 0, transition: { duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] } }
               }}
               className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
             >
@@ -670,7 +707,6 @@ const HomePage = () => {
                   src={item.img} 
                   alt="Photography by Marc" 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
-                  loading="lazy" 
                 />
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
