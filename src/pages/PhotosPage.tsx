@@ -128,7 +128,7 @@ export const PhotosPage = () => {
     if (items.length === 0) return null;
 
     return (
-      <div className="flex flex-wrap gap-4 items-center bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-mono text-[#ddd]">
+      <div className="flex flex-wrap justify-center gap-4 items-center bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-mono text-[#ddd] text-center">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-1.5">
             {item.icon}
@@ -292,7 +292,7 @@ export const PhotosPage = () => {
                 <ChevronRight size={36} />
               </button>
               
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full flex justify-center px-4 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="mt-6 w-full flex justify-center px-4 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
                 {renderExifValues()}
               </div>
             </motion.div>
