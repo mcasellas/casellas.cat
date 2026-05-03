@@ -41,10 +41,10 @@ export const HomePage = () => {
         className="mb-6 md:mb-10 mt-8 md:mt-0 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
-        <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
+        <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
           {t('home.subtitle')}
-        </p>
+        </div>
       </motion.header>
 
       <main className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-12">

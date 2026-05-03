@@ -29,8 +29,9 @@ find "$SRC_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -ina
     
     echo "Processant: $base"
 
+    # 3. Generar FULL (preservant metadades) i THUMB (sense metadades)
     if $CMD "$file" -quality 75 "$FULLS_DIR/$clean_name" && \
-       $CMD "$file" -quality 60 -resize "580x580>" "$THUMBS_DIR/$clean_name"; then
+       $CMD "$file" -quality 60 -resize "580x580>" -strip "$THUMBS_DIR/$clean_name"; then
         echo "✓ $clean_name generat. Eliminant original."
         rm "$file"
     else

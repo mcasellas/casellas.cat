@@ -35,10 +35,10 @@ export const CVPage = () => {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
           <Trans i18nKey="home.title" />
         </h1>
-        <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
+        <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
           {t('cv.title')}
-        </p>
+        </div>
       </motion.header>
 
       <main className="flex-grow w-full max-w-none">

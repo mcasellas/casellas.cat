@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import exifr from 'exifr';
+import ExifReader from 'exifreader';
 import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
@@ -42,6 +42,7 @@ export const PhotosPage = () => {
   }, []);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState(0);
   const [exifData, setExifData] = useState<any>(null);
 
   useEffect(() => {
@@ -50,12 +51,21 @@ export const PhotosPage = () => {
       return;
     }
     const fullSrc = images[selectedIndex].full;
-    exifr.parse(fullSrc).then(data => {
-      setExifData(data || {});
-    }).catch(e => {
-      console.error("Failed to parse EXIF:", e);
-      setExifData({});
-    });
+    fetch(fullSrc)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.arrayBuffer();
+      })
+      .then(buffer => {
+        return ExifReader.load(buffer);
+      })
+      .then(tags => {
+        setExifData(tags || {});
+      })
+      .catch(e => {
+        console.error("Failed to parse EXIF:", e);
+        setExifData({});
+      });
   }, [selectedIndex, images]);
 
   useEffect(() => {
@@ -79,11 +89,13 @@ export const PhotosPage = () => {
 
   const closeImage = () => {
     setSelectedIndex(null);
+    setDirection(0);
   };
 
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (selectedIndex !== null) {
+      setDirection(1);
       setSelectedIndex((selectedIndex + 1) % images.length);
     }
   };
@@ -91,26 +103,27 @@ export const PhotosPage = () => {
   const prevImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (selectedIndex !== null) {
+      setDirection(-1);
       setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
     }
   };
 
-  const formatExposureTime = (val: any) => {
-    if (!val) return null;
-    if (val < 1) {
-      return `1/${Math.round(1 / val)}s`;
-    }
-    return `${val}s`;
-  };
-
   const renderExifValues = () => {
-    if (!exifData) return null;
+    if (!exifData || Object.keys(exifData).length === 0) return null;
     
     const items = [];
-    if (exifData.Model) items.push({ icon: <Camera size={14} />, value: exifData.Model });
-    if (exifData.FNumber) items.push({ icon: <CircleDot size={14} />, value: `f/${exifData.FNumber}` });
-    if (exifData.ExposureTime) items.push({ icon: <Clock size={14} />, value: formatExposureTime(exifData.ExposureTime) });
-    if (exifData.ISO) items.push({ icon: <Info size={14} />, value: `ISO ${exifData.ISO}` });
+    const model = exifData.Model?.description || exifData.Make?.description;
+    let fNumber = exifData.FNumber?.description;
+    if (fNumber && !fNumber.toString().toLowerCase().startsWith('f/')) {
+      fNumber = `f/${fNumber}`;
+    }
+    const exposureTime = exifData.ExposureTime?.description;
+    const iso = exifData.ISOSpeedRatings?.description || exifData.ISO?.description;
+
+    if (model) items.push({ icon: <Camera size={14} />, value: model });
+    if (fNumber) items.push({ icon: <CircleDot size={14} />, value: fNumber });
+    if (exposureTime) items.push({ icon: <Clock size={14} />, value: exposureTime.includes('/') ? `${exposureTime}s` : `${exposureTime}s` });
+    if (iso) items.push({ icon: <Info size={14} />, value: `ISO ${iso}` });
 
     if (items.length === 0) return null;
 
@@ -154,10 +167,10 @@ export const PhotosPage = () => {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
           {t('home.title')}
         </h1>
-        <p className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
+        <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
           {t('photos.title')}
-        </p>
+        </div>
       </motion.header>
 
       <main className="flex-grow w-full max-w-none">
@@ -232,7 +245,13 @@ export const PhotosPage = () => {
             >
               <X size={24} />
             </button>
-            <div className="relative flex flex-col items-center justify-center pointer-events-none">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex flex-col items-center justify-center pointer-events-none"
+            >
               <button 
                 className="absolute left-0 md:left-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
                 onClick={prevImage}
@@ -240,15 +259,31 @@ export const PhotosPage = () => {
                 <ChevronLeft size={36} />
               </button>
               
-              <div className="relative max-w-[90vw] max-h-[85vh] select-none pointer-events-auto" onClick={(e) => e.stopPropagation()} onContextMenu={(e) => e.preventDefault()}>
-                <img 
-                  src={images[selectedIndex].full} 
-                  alt="Expanded photography" 
-                  className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl"
-                  onDragStart={(e) => e.preventDefault()}
-                />
+              <motion.div 
+                layout
+                transition={{ 
+                  layout: { type: "spring", stiffness: 200, damping: 25 },
+                  opacity: { duration: 0.3 }
+                }}
+                className="relative max-w-[90vw] max-h-[85vh] select-none pointer-events-auto overflow-hidden" 
+                onClick={(e) => e.stopPropagation()} 
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.img 
+                    key={selectedIndex}
+                    src={images[selectedIndex].full} 
+                    alt="Expanded photography" 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl"
+                    onDragStart={(e) => e.preventDefault()}
+                  />
+                </AnimatePresence>
                 <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
-              </div>
+              </motion.div>
               
               <button 
                 className="absolute right-0 md:right-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
@@ -260,7 +295,7 @@ export const PhotosPage = () => {
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full flex justify-center px-4 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
                 {renderExifValues()}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
