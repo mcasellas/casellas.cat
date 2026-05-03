@@ -6,3 +6,9 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -4,6 +4,11 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import exifr from 'exifr';
 import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight, Globe } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
+import img1 from './images/1.jpg';
+import img2 from './images/2.jpg';
+import img3 from './images/3.jpg';
+import img4 from './images/4.jpg';
+import img5 from './images/5.jpg';
 
 const LanguageSwitcher = ({ className = "" }: { className?: string }) => {
   const { i18n } = useTranslation();
@@ -71,9 +76,9 @@ const CVPage = () => {
       </div>
 
       <motion.header
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
@@ -88,10 +93,10 @@ const CVPage = () => {
 
       <main className="flex-grow w-full max-w-none">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="bg-[#111] rounded-sm p-6 md:p-10 border border-[#222] font-sans text-[#ddd] w-full"
         >
           <div className="space-y-12">
@@ -252,25 +257,43 @@ const CVPage = () => {
   );
 };
 
-// Carreguem els thumbs de la carpeta portfolio per a la graella
-const thumbModules = import.meta.glob('/public/images/portfolio/thumbs/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { eager: true });
-const allPortfolioThumbs = Object.keys(thumbModules).map(key => key.replace('/public', ''));
 
 const PhotosPage = () => {
   const { t } = useTranslation();
   
   // Creem una llista d'objectes amb la ruta del thumb i de la imatge completa
-  // Barregem les imatges aleatòriament només un cop al muntar el component
-  const [images] = useState(() => {
-    const shuffled = [...allPortfolioThumbs].sort(() => Math.random() - 0.5);
-    const mapped = shuffled.map(thumbPath => ({
-      thumb: thumbPath,
-      full: thumbPath.replace('/thumbs/', '/fulls/')
-    }));
-    // Assegurem que el número de fotos sigui múltiple de 4 per no deixar buits a la graella
-    const count = Math.floor(mapped.length / 4) * 4;
-    return mapped.slice(0, count);
-  });
+  // Carreguem les imatges dinàmicament quan s'entra a la secció
+  const [images, setImages] = useState<{thumb: string, full: string}[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    const loadImages = async () => {
+      // Importem els mòduls de les imatges de forma dinàmica (lazy)
+      const thumbModules = import.meta.glob('./images/portfolio/thumbs/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { as: 'url' });
+      const fullModules = import.meta.glob('./images/portfolio/fulls/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { as: 'url' });
+      
+      const thumbKeys = Object.keys(thumbModules);
+      const imageList = await Promise.all(thumbKeys.map(async (key) => {
+        // En Vite, quan usem 'as: url' i importem el mòdul, ens retorna la URL directament (o el default export)
+        const thumbUrl = await (thumbModules[key]() as any);
+        const filename = key.split('/').pop();
+        const fullKey = Object.keys(fullModules).find(k => k.endsWith(filename!));
+        const fullUrl = fullKey ? await (fullModules[fullKey]() as any) : thumbUrl;
+        
+        return { 
+          thumb: thumbUrl, 
+          full: fullUrl 
+        };
+      }));
+
+      const shuffled = [...imageList].sort(() => Math.random() - 0.5);
+      const count = Math.floor(shuffled.length / 4) * 4;
+      setImages(shuffled.slice(0, count));
+      setIsLoading(false);
+    };
+
+    loadImages();
+  }, []);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exifData, setExifData] = useState<any>(null);
@@ -370,9 +393,9 @@ const PhotosPage = () => {
       </div>
 
       <motion.header
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
@@ -387,36 +410,53 @@ const PhotosPage = () => {
 
       <main className="flex-grow w-full max-w-none">
         <motion.div
-           initial={{ opacity: 0, y: 10 }}
+           initial={{ opacity: 0, y: 15 }}
            animate={{ opacity: 1, y: 0 }}
            exit={{ opacity: 0, y: -10 }}
-           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+           transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
-          {images.map((img, index) => (
-             <div 
-               key={index} 
-               onClick={() => openImage(index)}
-               onContextMenu={(e) => e.preventDefault()}
-               className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
+          {isLoading ? (
+            // Skeleton grid mentre es carreguen les rutes de les imatges
+            Array.from({ length: 12 }).map((_, i) => (
+              <div 
+                key={`skeleton-${i}`} 
+                className="bg-[#1a1a1a] rounded-sm aspect-square relative overflow-hidden"
               >
-                <img 
-                  src={img.thumb} 
-                  alt={`Photography ${index}`} 
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
-                  loading="lazy" 
-                  onDragStart={(e) => e.preventDefault()}
-                />
-                {/* Capa invisible per dificultar la descàrrega */}
-                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
-             </div>
-          ))}
-          {images.length === 0 && (
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+              </div>
+            ))
+          ) : images.length > 0 ? (
+            images.map((img, index) => (
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: Math.min(index * 0.03, 0.8), // Stagger limitat per no trigar massa
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                onClick={() => openImage(index)}
+                onContextMenu={(e) => e.preventDefault()}
+                className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
+               >
+                 <img 
+                   src={img.thumb} 
+                   alt={`Photography ${index}`} 
+                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
+                   loading="lazy" 
+                   onDragStart={(e) => e.preventDefault()}
+                 />
+                 <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
+              </motion.div>
+            ))
+          ) : (
              <div className="col-span-full py-20 text-center flex flex-col items-center justify-center border border-dashed border-[#333] rounded-sm">
                <span className="text-2xl mb-4">📷</span>
                <p className="text-[#666] font-mono text-sm max-w-md">
                  <Trans i18nKey="photos.not_found">
-                   No s'han trobat imatges. Afegeix les teves fotos a la carpeta <span className="text-white bg-[#222] px-1 rounded">public/images/</span> per veure-les aquí.
+                   No s'han trobat imatges. Afegeix les teves fotos a la carpeta <span className="text-white bg-[#222] px-1 rounded">src/images/portfolio/</span> per veure-les aquí.
                  </Trans>
                </p>
              </div>
@@ -479,16 +519,9 @@ const PhotosPage = () => {
 };
 
 const HomePage = () => {
-  const location = useLocation();
   const { t } = useTranslation();
 
-  const images = [
-    "/images/1.jpg",
-    "/images/2.jpg",
-    "/images/3.jpg",
-    "/images/4.jpg",
-    "/images/5.jpg"
-  ];
+  const images = [img1, img2, img3, img4, img5];
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
@@ -503,9 +536,9 @@ const HomePage = () => {
       </div>
 
       <motion.header
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
@@ -519,7 +552,7 @@ const HomePage = () => {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-5 flex flex-col justify-between border-t border-[#222] pt-8"
         >
           <div className="space-y-6 mb-10 lg:mb-15">
@@ -568,48 +601,81 @@ const HomePage = () => {
         </motion.div>
 
         <motion.div 
-          key="portfolio"
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.4
+              }
+            }
+          }}
+          initial="hidden"
+          animate="show"
           className="lg:col-span-7 h-[600px] lg:h-[auto] min-h-[400px] grid grid-cols-2 grid-rows-3 gap-3"
         >
-          <Link to="/photos" className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
-            <img src={images[0]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              {t('home.tags.traditions')}
-            </div>
-          </Link>
-          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
-            <img src={images[1]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              {t('home.tags.nature')}
-            </div>
-          </Link>
-          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
-            <img src={images[2]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              {t('home.tags.catalonia')}
-            </div>
-          </Link>
-          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
-            <img src={images[3]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              {t('home.tags.travel')}
-            </div>
-          </Link>
-          <Link to="/photos" className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer">
-            <img src={images[4]} alt="Photography by Marc" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" loading="lazy" />
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
-              {t('home.tags.street')}
-            </div>
-          </Link>
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0, scale: 0.98, y: 15 },
+              show: { opacity: 1, scale: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
+            }}
+            className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
+          >
+            <Link to="/photos" className="absolute inset-0 block">
+              <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+              </div>
+              <motion.img 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+                src={images[0]} 
+                alt="Photography by Marc" 
+                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
+                loading="lazy" 
+              />
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
+                {t('home.tags.traditions')}
+              </div>
+            </Link>
+          </motion.div>
+          
+          {[
+            { img: images[1], tag: t('home.tags.nature') },
+            { img: images[2], tag: t('home.tags.catalonia') },
+            { img: images[3], tag: t('home.tags.travel') },
+            { img: images[4], tag: t('home.tags.street') }
+          ].map((item, i) => (
+            <motion.div 
+              key={i}
+              variants={{
+                hidden: { opacity: 0, scale: 0.98, y: 15 },
+                show: { opacity: 1, scale: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
+              }}
+              className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
+            >
+              <Link to="/photos" className="absolute inset-0 block">
+                <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+                </div>
+                <motion.img 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+                  src={item.img} 
+                  alt="Photography by Marc" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
+                  loading="lazy" 
+                />
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
+                  {item.tag}
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </motion.div>
       </main>
 
