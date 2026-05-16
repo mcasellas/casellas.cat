@@ -286,7 +286,6 @@ export const PhotosPage = () => {
               
               <div 
                 className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center select-none pointer-events-auto overflow-hidden px-4 md:px-0" 
-                onClick={(e) => e.stopPropagation()} 
                 onContextMenu={(e) => e.preventDefault()}
               >
                 <AnimatePresence initial={false} custom={direction}>
@@ -294,6 +293,7 @@ export const PhotosPage = () => {
                     key={selectedIndex}
                     src={images[selectedIndex].full} 
                     alt="Expanded photography" 
+                    onClick={(e) => e.stopPropagation()} 
                     custom={direction}
                     variants={{
                       enter: (direction: number) => ({
