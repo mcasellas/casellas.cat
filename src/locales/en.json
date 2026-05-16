@@ -28,6 +28,10 @@
       "portrait": "Portrait"
     }
   },
+  "common": {
+    "location_country": "CATALONIA",
+    "photography_by": "Photography by Marc Casellas"
+  },
   "footer": {
     "interests_title": "Interests",
     "interests_desc": "Photography • Radio • NetDevOps",
@@ -51,7 +55,7 @@
         "items": [
           "<1>Automation & Cloud:</1> Process orchestration with <strong>Python</strong> and deployment of microservices in containers (<strong>Docker</strong>) across on-premise and cloud environments (<strong>GCP / BigQuery</strong>).",
           "<1>Monitoring & HA:</1> Designed <strong>Zabbix</strong> monitoring architectures with reactive and predictive alerting. Management of critical systems (<strong>RADIUS, DHCP, DNS, IPAM</strong>) in high availability (HA).",
-          "<1>DevOps & CI/CD:</1> Implementation of CI/CD cycles and software best practices (Git, documentation) in collaboration with dev and operations teams.",
+          "<1>DevOps & CI/CD:</1> Software best practices (Git, documentation) in collaboration with dev and operations teams.",
           "<1>Cybersecurity:</1> Deployment and policy definition for perimeter firewalls (<strong>NGFW</strong>).",
           "<1>Homologation:</1> CPE equipment testing and validation before production rollout."
         ]
@@ -101,13 +105,13 @@
         "date": "2010 — Present",
         "item1": "Server administration (streaming, broadcasting) and network maintenance.",
         "item2": "Automation: Developed a distributed contribution system for remote users.",
-        "item3": "Co-host of the show <em>Endramaliats</em>."
+        "item3": "Co-host of the show <1>Endramaliats</1>."
       },
       "photography": {
         "role": "Photographer",
-        "company": "AFV",
+        "company": "Associació fotogràfica del Voltreganès (AFV)",
         "date": "2022 — Present",
-        "item1": "Portfolio available at <1>mcasellas.com</1>."
+        "item1": "Portfolio available at <1>casellas.cat</1>."
       }
     },
     "languages": {

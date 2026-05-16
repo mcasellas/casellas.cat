@@ -28,6 +28,10 @@
       "portrait": "Retrat"
     }
   },
+  "common": {
+    "location_country": "CATALUNYA",
+    "photography_by": "Fotografia de Marc Casellas"
+  },
   "footer": {
     "interests_title": "Interessos",
     "interests_desc": "Fotografia • Ràdio • NetDevOps",
@@ -101,13 +105,13 @@
         "date": "2010 — Actualitat",
         "item1": "Administració de servidors (streaming, emissió) i manteniment de xarxa.",
         "item2": "Automatització: Desenvolupament d'un sistema de contribució distribuït per a usuaris remots.",
-        "item3": "Co-presentador del programa <em>Endramaliats</em>."
+        "item3": "Co-presentador del programa <1>Endramaliats</1>."
       },
       "photography": {
         "role": "Fotògraf",
-        "company": "AFV",
+        "company": "Associació fotogràfica del Voltreganès (AFV)",
         "date": "2022 — Actualitat",
-        "item1": "Portfolio disponible a <1>mcasellas.com</1>."
+        "item1": "Portfolio disponible a <1>casellas.cat</1>."
       }
     },
     "languages": {

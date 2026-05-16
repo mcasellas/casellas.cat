@@ -26,7 +26,7 @@ export const HomePage = () => {
       >
         <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
-          <span>CATALUNYA</span>
+          <span>{t('common.location_country')}</span>
         </div>
         <div className="hidden md:block">
           <LanguageSwitcher />
@@ -40,10 +40,12 @@ export const HomePage = () => {
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-6 md:mb-10 mt-8 md:mt-0 xl:pr-96"
       >
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4" dangerouslySetInnerHTML={{ __html: t('home.title') }} />
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
+          <Trans i18nKey="home.title" />
+        </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
-          {t('home.subtitle')}
+          <Trans i18nKey="home.subtitle" />
         </div>
       </motion.header>
 
@@ -56,7 +58,7 @@ export const HomePage = () => {
         >
           <div className="space-y-6 mb-10 lg:mb-15">
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              {t('home.p1')}
+              <Trans i18nKey="home.p1" />
             </p>
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
               <Trans i18nKey="home.p2">
@@ -64,7 +66,7 @@ export const HomePage = () => {
               </Trans>
             </p>
             <p className="text-base md:text-lg leading-relaxed text-[#aaa] font-light max-w-xl">
-              {t('home.p3')}
+              <Trans i18nKey="home.p3" />
             </p>
           </div>
 
@@ -72,23 +74,23 @@ export const HomePage = () => {
             <nav className="flex flex-col gap-3 font-mono text-sm">
               <Link to="/cv" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
-                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}>{t('home.links.cv')}</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.cv_desc')}</span>
+                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.cv" /></span> 
+                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.cv_desc" /></span>
               </Link>
               <Link to="/photos" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
-                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}>{t('home.links.photos')}</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.photos_desc')}</span>
+                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.photos" /></span> 
+                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.photos_desc" /></span>
               </Link>
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
                 <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
-                <span className="text-white">{t('home.links.podcast')}</span> 
-                <span className="text-[#444] group-hover:text-white transition-colors">{t('home.links.podcast_desc')}</span>
+                <span className="text-white"><Trans i18nKey="home.links.podcast" /></span> 
+                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.podcast_desc" /></span>
               </a>
             </nav>
 
             <div className="pt-4">
-              <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest">{t('home.follow')}</span>
+              <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest"><Trans i18nKey="home.follow" /></span>
               <div className="flex flex-wrap gap-6 text-[11px] font-mono tracking-widest uppercase text-[#666]">
                 <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
                 <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X</a>
@@ -130,7 +132,7 @@ export const HomePage = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 src={images[0]} 
-                alt={`${t('home.tags.traditions')} - Photography by Marc Casellas`} 
+                alt={`${t('home.tags.traditions')} - ${t('common.photography_by')}`} 
                 className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
               />
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -163,7 +165,7 @@ export const HomePage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   src={item.img} 
-                  alt={`${item.tag} - Photography by Marc Casellas`} 
+                  alt={`${item.tag} - ${t('common.photography_by')}`} 
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
                 />
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
