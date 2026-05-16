@@ -8,7 +8,7 @@
     "subtitle": "ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO",
     "p1": "Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya.",
     "p2": "Sóc <1>enginyer informàtic</1> de professió, especialitzat en NetDevOps, monitoratge i automatització.",
-    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de muntanya, paisatge, i carrer, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
+    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia —sobretot de muntanya, paisatge i carrer— i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
     "links": {
       "cv": "CURRÍCULUM",
       "cv_desc": "NETDEVOPS →",
@@ -34,6 +34,26 @@
   },
   "footer": {
     "back_to_home": "← Tornar a l'inici"
+  },
+  "hola": {
+    "title": "MARC CASELLAS",
+    "subtitle": "NETDEVOPS · FOTOGRAFIA · RÀDIO",
+    "links": {
+      "portfolio": "Portfoli Principal",
+      "portfolio_desc": "Explora les meves fotografies, projectes i treballs",
+      "cv": "Currículum Vitae",
+      "cv_desc": "NetDevOps & Experiència Professional",
+      "instagram": "Instagram",
+      "instagram_desc": "Viatge, muntanya i street photography",
+      "linkedin": "LinkedIn",
+      "linkedin_desc": "Perfil professional, trajectòria i contacte",
+      "github": "GitHub",
+      "github_desc": "Codi obert, automatització i projectes personals",
+      "twitter": "X (Twitter)",
+      "twitter_desc": "Idees, tecnologia, xarxes i actualitat",
+      "podcast": "Endramaliats",
+      "podcast_desc": "El nostre podcast setmanal a Ràdio Voltregà"
+    }
   },
   "cv": {
     "title": "CURRÍCULUM",

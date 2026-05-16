@@ -8,7 +8,7 @@
     "subtitle": "COMPUTER ENGINEER (UPC) / PHOTOGRAPHY / RADIO",
     "p1": "Hi, I'm Marc. Born in Osona, Catalonia.",
     "p2": "I'm a <1>computer engineer</1> by profession, specialized in NetDevOps, monitoring and automation.",
-    "p3": "Outside the technical field, I'm passionate about capturing and telling stories. I do it through photography, specially mountain, landscape, and street photography, and also through the radio. This space collects a part of this more personal and creative side.",
+    "p3": "Outside the tech world, I am passionate about capturing and telling stories. I do this through photography—especially mountain, landscape, and street—and also on the radio. This space showcases a part of this more personal and creative side.",
     "links": {
       "cv": "RESUME",
       "cv_desc": "NETDEVOPS →",
@@ -34,6 +34,26 @@
   },
   "footer": {
     "back_to_home": "← Back to home"
+  },
+  "hola": {
+    "title": "MARC CASELLAS",
+    "subtitle": "NETDEVOPS · PHOTOGRAPHY · RADIO",
+    "links": {
+      "portfolio": "Main Website / Portfolio",
+      "portfolio_desc": "Explore my photography, projects and work",
+      "cv": "Curriculum Vitae",
+      "cv_desc": "NetDevOps & Professional Experience",
+      "instagram": "Instagram",
+      "instagram_desc": "Travel, mountain and street photography",
+      "linkedin": "LinkedIn",
+      "linkedin_desc": "Professional profile, career and contact",
+      "github": "GitHub",
+      "github_desc": "Open source, automation and personal projects",
+      "twitter": "X (Twitter)",
+      "twitter_desc": "Thoughts, technology, networks and current topics",
+      "podcast": "Endramaliats",
+      "podcast_desc": "Our weekly podcast on Ràdio Voltregà"
+    }
   },
   "cv": {
     "title": "RESUME",

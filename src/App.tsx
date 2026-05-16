@@ -6,6 +6,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 const CVPage = lazy(() => import('./pages/CVPage').then(m => ({ default: m.CVPage })));
 const PhotosPage = lazy(() => import('./pages/PhotosPage').then(m => ({ default: m.PhotosPage })));
+const HolaPage = lazy(() => import('./pages/HolaPage').then(m => ({ default: m.HolaPage })));
 
 // Loading component for Suspense
 const PageLoader = () => (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/cv" element={<CVPage />} />
             <Route path="/photos" element={<PhotosPage />} />
+            <Route path="/hola" element={<HolaPage />} />
           </Routes>
         </Suspense>
       </AnimatePresence>

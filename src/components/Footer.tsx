@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { Instagram, Twitter, Linkedin, Github } from 'lucide-react';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -20,14 +21,26 @@ export const Footer = () => {
         WebkitMaskImage: 'radial-gradient(circle at 100% 100%, transparent 0%, black 50%)'
       }}
     />
-    <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[10px] text-[#444] uppercase tracking-widest">
+    <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[11px] text-[#444] uppercase tracking-widest">
       <div className="flex flex-col gap-1">
         <p className="text-[#666] uppercase tracking-widest">{t('home.follow')}</p>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-[#888]">
-          <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-          <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X</a>
-          <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-          <a href="https://github.com/mcasellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+          <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
+            <Instagram size={13} />
+            <span>Instagram</span>
+          </a>
+          <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
+            <Linkedin size={13} />
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
+            <Twitter size={13} />
+            <span>X</span>
+          </a>
+          <a href="https://github.com/mcasellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
+            <Github size={13} />
+            <span>GitHub</span>
+          </a>
         </div>
       </div>
       <div className="xl:hidden flex flex-col gap-1">
@@ -40,7 +53,7 @@ export const Footer = () => {
       <div className="md:hidden">
         <LanguageSwitcher />
       </div>
-      <div className="text-[10px] font-mono text-[#888] tracking-tight">
+      <div className="text-[11px] font-mono text-[#888] tracking-tight">
         © {new Date().getFullYear()} CASELLAS.CAT
       </div>
     </div>
