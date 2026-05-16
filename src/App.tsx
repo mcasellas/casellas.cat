@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 // Lazy load pages for better performance and smaller bundle size
 import { HomePage } from './pages/HomePage';
@@ -36,6 +36,8 @@ function App() {
             <Route path="/cv" element={<CVPage />} />
             <Route path="/photos" element={<PhotosPage />} />
             <Route path="/hola" element={<HolaPage />} />
+            <Route path="/index.html" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </AnimatePresence>

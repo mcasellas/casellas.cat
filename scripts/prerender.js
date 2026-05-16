@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const distDir = path.resolve('dist');
-const pages = ['photos', 'cv'];
+const pages = ['photos', 'cv', 'hola'];
 
 pages.forEach(page => {
   const pageDir = path.join(distDir, page);
