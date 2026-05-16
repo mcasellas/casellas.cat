@@ -74,20 +74,20 @@ export const HomePage = () => {
 
           <div className="space-y-8">
             <nav className="flex flex-col gap-3 font-mono text-sm">
-              <Link to="/cv" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
+              <Link to="/cv" className="group grid grid-cols-[2.5rem_1fr_auto] w-full items-center border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
                 <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.cv" /></span> 
-                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.cv_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.cv_desc" /></span>
               </Link>
-              <Link to="/photos" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
+              <Link to="/photos" className="group grid grid-cols-[2.5rem_1fr_auto] w-full items-center border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
                 <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
                 <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.photos" /></span> 
-                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.photos_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.photos_desc" /></span>
               </Link>
-              <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
-                <span className="text-[#888] group-hover:text-white transition-colors">03</span> 
+              <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group grid grid-cols-[2.5rem_1fr_auto] items-center border-b border-[#222] pb-2 transition-all hover:border-white">
+                <span className={`text-[#888] group-hover:text-white transition-colors`}>03</span> 
                 <span className="text-white"><Trans i18nKey="home.links.podcast" /></span> 
-                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.podcast_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.podcast_desc" /></span>
               </a>
             </nav>
           </div>
@@ -106,7 +106,7 @@ export const HomePage = () => {
           }}
           initial="hidden"
           animate="show"
-          className="lg:col-span-7 h-[600px] lg:h-[auto] min-h-[400px] grid grid-cols-2 grid-rows-3 gap-3"
+          className="lg:col-span-7 h-auto lg:h-[auto] min-h-[400px] grid grid-cols-2 grid-rows-3 gap-3"
         >
           <motion.div 
             variants={{

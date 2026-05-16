@@ -10,8 +10,16 @@ export const Footer = () => {
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.8, delay: 0.4 }}
-    className="mt-16 md:mt-24 pt-8 border-t border-[#222] flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0 pb-12"
+    className="mt-16 md:mt-24 pt-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0 relative"
   >
+    {/* Línia superior amb degradat radial per no trepitjar el mapa topogràfic */}
+    <div 
+      className="absolute top-0 left-0 w-full h-[1px] bg-[#222]"
+      style={{
+        maskImage: 'radial-gradient(circle at 100% 100%, transparent 0%, black 50%)',
+        WebkitMaskImage: 'radial-gradient(circle at 100% 100%, transparent 0%, black 50%)'
+      }}
+    />
     <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[10px] text-[#444] uppercase tracking-widest">
       <div className="flex flex-col gap-1">
         <p className="text-[#666] uppercase tracking-widest">{t('home.follow')}</p>
