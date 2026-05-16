@@ -20,19 +20,24 @@ const PageLoader = () => (
   </div>
 );
 
+import { SiteBackground } from './components/SiteBackground';
+
 function App() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Suspense fallback={<PageLoader />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cv" element={<CVPage />} />
-          <Route path="/photos" element={<PhotosPage />} />
-        </Routes>
-      </Suspense>
-    </AnimatePresence>
+    <>
+      <SiteBackground />
+      <AnimatePresence mode="wait">
+        <Suspense fallback={<PageLoader />}>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/cv" element={<CVPage />} />
+            <Route path="/photos" element={<PhotosPage />} />
+          </Routes>
+        </Suspense>
+      </AnimatePresence>
+    </>
   );
 }
 

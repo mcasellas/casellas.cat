@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
-import { SiteBackground } from '../components/SiteBackground';
 
 import img1 from '../images/1.webp';
 import img2 from '../images/2.webp';
@@ -18,8 +17,7 @@ export const HomePage = () => {
   const images = [img1, img2, img3, img4, img5];
 
   return (
-    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <SiteBackground />
+    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

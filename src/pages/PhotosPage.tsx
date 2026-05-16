@@ -7,7 +7,6 @@ import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lu
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
-import { SiteBackground } from '../components/SiteBackground';
 
 const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -161,8 +160,7 @@ export const PhotosPage = () => {
   };
 
   return (
-    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
-      <SiteBackground />
+    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

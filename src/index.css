@@ -8,8 +8,7 @@
 
 @layer base {
   html, body {
-    background-color: transparent;
-    /* background-color: #0a0a0b; */
+    background-color: #0a0a0b;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
