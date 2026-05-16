@@ -8,6 +8,26 @@ import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
 
+const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  return (
+    <div className="relative w-full h-full bg-black">
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-black animate-pulse" />
+      )}
+      <img 
+        src={src} 
+        alt={alt} 
+        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 ${isLoaded ? 'opacity-80 group-hover:opacity-100' : 'opacity-0'}`} 
+        loading="lazy" 
+        onLoad={() => setIsLoaded(true)}
+        onDragStart={(e) => e.preventDefault()}
+      />
+    </div>
+  );
+};
+
 export const PhotosPage = () => {
   const { t } = useTranslation();
   
@@ -72,9 +92,9 @@ export const PhotosPage = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedIndex === null) return;
       if (e.key === 'ArrowRight') {
-        setSelectedIndex((prev) => prev !== null ? (prev + 1) % images.length : null);
+        nextImage();
       } else if (e.key === 'ArrowLeft') {
-        setSelectedIndex((prev) => prev !== null ? (prev - 1 + images.length) % images.length : null);
+        prevImage();
       } else if (e.key === 'Escape') {
         setSelectedIndex(null);
       }
@@ -203,14 +223,11 @@ export const PhotosPage = () => {
                 }}
                 onClick={() => openImage(index)}
                 onContextMenu={(e) => e.preventDefault()}
-                className="bg-[#1a1a1a] rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
+                className="bg-black rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
                >
-                 <img 
+                 <ImageWithPlaceholder 
                    src={img.thumb} 
                    alt={`Photography ${index}`} 
-                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105" 
-                   loading="lazy" 
-                   onDragStart={(e) => e.preventDefault()}
                  />
                  <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
               </motion.div>
@@ -236,7 +253,7 @@ export const PhotosPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 md:p-8"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 md:p-8 touch-none"
             onClick={closeImage}
           >
             <button 
@@ -250,43 +267,78 @@ export const PhotosPage = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex flex-col items-center justify-center pointer-events-none"
+              className="relative flex flex-col items-center justify-center pointer-events-none w-full h-full"
             >
+              {/* Preload adjacent images */}
+              <div className="hidden">
+                <img src={images[(selectedIndex + 1) % images.length].full} alt="preload-next" />
+                <img src={images[(selectedIndex - 1 + images.length) % images.length].full} alt="preload-prev" />
+              </div>
+
               <button 
-                className="absolute left-0 md:left-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
+                className="hidden md:flex absolute left-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
                 onClick={prevImage}
               >
                 <ChevronLeft size={36} />
               </button>
               
-              <motion.div 
-                layout
-                transition={{ 
-                  layout: { type: "spring", stiffness: 200, damping: 25 },
-                  opacity: { duration: 0.3 }
-                }}
-                className="relative max-w-[90vw] max-h-[85vh] select-none pointer-events-auto overflow-hidden" 
+              <div 
+                className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center select-none pointer-events-auto overflow-hidden px-4 md:px-0" 
                 onClick={(e) => e.stopPropagation()} 
                 onContextMenu={(e) => e.preventDefault()}
               >
-                <AnimatePresence mode="wait" initial={false}>
+                <AnimatePresence initial={false} custom={direction}>
                   <motion.img 
                     key={selectedIndex}
                     src={images[selectedIndex].full} 
                     alt="Expanded photography" 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl"
+                    custom={direction}
+                    variants={{
+                      enter: (direction: number) => ({
+                        x: direction > 0 ? '100%' : '-100%',
+                        opacity: 0,
+                        scale: 0.9
+                      }),
+                      center: {
+                        zIndex: 1,
+                        x: 0,
+                        opacity: 1,
+                        scale: 1
+                      },
+                      exit: (direction: number) => ({
+                        zIndex: 0,
+                        x: direction < 0 ? '100%' : '-100%',
+                        opacity: 0,
+                        scale: 0.9
+                      })
+                    }}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.5}
+                    onDragEnd={(_, info) => {
+                      const threshold = 50;
+                      if (info.offset.x > threshold) {
+                        prevImage();
+                      } else if (info.offset.x < -threshold) {
+                        nextImage();
+                      }
+                    }}
+                    transition={{ 
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 },
+                      scale: { duration: 0.2 }
+                    }}
+                    className="absolute max-w-full max-h-full object-contain rounded-sm shadow-2xl cursor-grab active:cursor-grabbing"
                     onDragStart={(e) => e.preventDefault()}
                   />
                 </AnimatePresence>
-                <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
-              </motion.div>
+              </div>
               
               <button 
-                className="absolute right-0 md:right-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
+                className="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
                 onClick={nextImage}
               >
                 <ChevronRight size={36} />

@@ -8,7 +8,7 @@
     "subtitle": "ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO",
     "p1": "Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya.",
     "p2": "Sóc <1>enginyer informàtic</1> de professió, especialitzat en NetDevOps, monitoratge i automatització.",
-    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de carrer, viatge i paisatge, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
+    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia, sobretot de muntanya, paisatge, i carrer, i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
     "links": {
       "cv": "CURRÍCULUM",
       "cv_desc": "NETDEVOPS →",
@@ -55,7 +55,7 @@
         "items": [
           "<1>Automatització & Cloud:</1> Orquestració de processos amb <strong>Python</strong> i desplegament de microserveis en contenidors (<strong>Docker</strong>) en entorns on-premise i cloud (<strong>GCP / BigQuery</strong>).",
           "<1>Monitoratge & HA:</1> Disseny d'arquitectures de monitoratge <strong>Zabbix</strong> amb alertat reactiu i predictiu. Gestió de sistemes crítics (<strong>RADIUS, DHCP, DNS, IPAM</strong>) en alta disponibilitat (HA).",
-          "<1>DevOps & CI/CD:</1> Implementació de cicles CI/CD i bones pràctiques de software (Git, documentació) en col·laboració amb els equips de dev i operacions.",
+          "<1>DevOps & CI/CD:</1> Bones pràctiques de software (Git, documentació) en col·laboració amb els equips de dev i operacions.",
           "<1>Ciberseguretat:</1> Desplegament i definició de polítiques per a firewalls de perímetre (<strong>NGFW</strong>).",
           "<1>Homologació:</1> Proves i validació d'equips CPE abans del desplegament en producció."
         ]
