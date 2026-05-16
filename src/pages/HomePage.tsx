@@ -40,7 +40,7 @@ export const HomePage = () => {
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
         className="mb-6 md:mb-10 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4 ml-[-0.05em]">
           <Trans i18nKey="home.title" />
         </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">

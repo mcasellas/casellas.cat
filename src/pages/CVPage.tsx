@@ -32,7 +32,7 @@ export const CVPage = () => {
         className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4 ml-[-0.05em]">
           <Trans i18nKey="home.title" />
         </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
