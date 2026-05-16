@@ -17,7 +17,7 @@ export const CVPage = () => {
       >
         <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
-          <span>CATALUNYA</span>
+          <span>{t('common.location_country')}</span>
         </div>
         <div className="hidden md:block">
           <LanguageSwitcher />
@@ -37,7 +37,7 @@ export const CVPage = () => {
         </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
-          {t('cv.title')}
+          <Trans i18nKey="cv.title" />
         </div>
       </motion.header>
 
