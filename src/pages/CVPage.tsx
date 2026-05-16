@@ -4,18 +4,20 @@ import { Link } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
+import { SiteBackground } from '../components/SiteBackground';
 
 export const CVPage = () => {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+      <SiteBackground />
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50"
       >
-        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#888] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>{t('common.location_country')}</span>
         </div>
@@ -29,7 +31,7 @@ export const CVPage = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
+        className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">

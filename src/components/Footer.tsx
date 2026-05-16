@@ -13,12 +13,17 @@ export const Footer = () => {
     className="mt-16 md:mt-24 pt-8 border-t border-[#222] flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0 pb-12"
   >
     <div className="flex flex-col sm:flex-row gap-8 md:gap-12 font-mono text-[10px] text-[#444] uppercase tracking-widest">
-      <div>
-        <p className="mb-1 text-[#666]">{t('footer.interests_title')}</p>
-        <p className="text-[#888]">{t('footer.interests_desc')}</p>
+      <div className="flex flex-col gap-1">
+        <p className="text-[#666] uppercase tracking-widest">{t('home.follow')}</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-[#888]">
+          <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
+          <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X</a>
+          <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+          <a href="https://github.com/mcasellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+        </div>
       </div>
-      <div className="xl:hidden flex flex-col gap-0.5">
-        <p className="mb-1 text-[#666]">LOCATION</p>
+      <div className="xl:hidden flex flex-col gap-1">
+        <p className="text-[#666] uppercase tracking-widest">LOCATION</p>
         <p className="text-[#888]">41.9309° N, 2.2544° E • CATALUNYA</p>
       </div>
     </div>
@@ -27,7 +32,7 @@ export const Footer = () => {
       <div className="md:hidden">
         <LanguageSwitcher />
       </div>
-      <div className="text-[10px] font-mono text-[#444] tracking-tight">
+      <div className="text-[10px] font-mono text-[#888] tracking-tight">
         © {new Date().getFullYear()} CASELLAS.CAT
       </div>
     </div>

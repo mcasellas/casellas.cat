@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
+import { SiteBackground } from '../components/SiteBackground';
 
 import img1 from '../images/1.webp';
 import img2 from '../images/2.webp';
@@ -17,14 +18,15 @@ export const HomePage = () => {
   const images = [img1, img2, img3, img4, img5];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+      <SiteBackground />
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-6 right-6 md:top-12 md:right-12 flex items-center gap-6 z-50"
       >
-        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#444] uppercase flex-col items-end gap-1">
+        <div className="hidden xl:flex text-[10px] font-mono tracking-widest text-[#888] uppercase flex-col items-end gap-1">
           <span>41.9309° N, 2.2544° E</span>
           <span>{t('common.location_country')}</span>
         </div>
@@ -38,7 +40,7 @@ export const HomePage = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-6 md:mb-10 mt-8 md:mt-0 xl:pr-96"
+        className="mb-6 md:mb-10 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4">
           <Trans i18nKey="home.title" />
@@ -73,31 +75,21 @@ export const HomePage = () => {
           <div className="space-y-8">
             <nav className="flex flex-col gap-3 font-mono text-sm">
               <Link to="/cv" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
-                <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
+                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
                 <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.cv" /></span> 
-                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.cv_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.cv_desc" /></span>
               </Link>
               <Link to="/photos" className="group flex w-full items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
-                <span className={`text-[#666] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
+                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
                 <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.photos" /></span> 
-                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.photos_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.photos_desc" /></span>
               </Link>
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between border-b border-[#222] pb-2 transition-all hover:border-white">
-                <span className="text-[#666] group-hover:text-white transition-colors">03</span> 
+                <span className="text-[#888] group-hover:text-white transition-colors">03</span> 
                 <span className="text-white"><Trans i18nKey="home.links.podcast" /></span> 
-                <span className="text-[#444] group-hover:text-white transition-colors"><Trans i18nKey="home.links.podcast_desc" /></span>
+                <span className="text-[#888] group-hover:text-white transition-colors"><Trans i18nKey="home.links.podcast_desc" /></span>
               </a>
             </nav>
-
-            <div className="pt-4">
-              <span className="text-[#888] mb-4 inline-block font-mono text-[10px] uppercase tracking-widest"><Trans i18nKey="home.follow" /></span>
-              <div className="flex flex-wrap gap-6 text-[11px] font-mono tracking-widest uppercase text-[#666]">
-                <a href="https://www.instagram.com/marc.casellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                <a href="https://twitter.com/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">X</a>
-                <a href="https://linkedin.com/in/casellas98" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-                <a href="https://github.com/mcasellas" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
-              </div>
-            </div>
           </div>
         </motion.div>
 

@@ -7,6 +7,7 @@ import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lu
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
+import { SiteBackground } from '../components/SiteBackground';
 
 const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -160,7 +161,8 @@ export const PhotosPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+    <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative selection:bg-white selection:text-black">
+      <SiteBackground />
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -181,7 +183,7 @@ export const PhotosPage = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0 xl:pr-96"
+        className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
         <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
