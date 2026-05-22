@@ -22,12 +22,14 @@ const PageLoader = () => (
 );
 
 import { SiteBackground } from './components/SiteBackground';
+import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   const location = useLocation();
 
   return (
     <>
+      <ScrollToTop />
       <SiteBackground />
       <AnimatePresence mode="wait">
         <Suspense fallback={<PageLoader />}>
