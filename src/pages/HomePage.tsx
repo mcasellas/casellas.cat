@@ -1,3 +1,4 @@
+import { useState, useEffect, Fragment } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,6 +11,99 @@ import img2 from '../images/2.webp';
 import img3 from '../images/3.webp';
 import img4 from '../images/4.webp';
 import img5 from '../images/5.webp';
+
+const glyphs = 'X/_[]*\\#%&+$@01█▒░';
+const fontFamilies = [
+  'var(--font-sans)',
+  'var(--font-mono)',
+  'serif',
+  'system-ui'
+];
+const fontWeights = ['100', '300', '500', '700', '900'];
+
+const GlitchWord = ({ word }: { word: string }) => {
+  const [chars, setChars] = useState(word.split('').map(c => ({ char: c, style: {} })));
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    let timer: NodeJS.Timeout;
+
+    const runGlitch = () => {
+      let count = 0;
+      interval = setInterval(() => {
+        setChars(() =>
+          word.split('').map((c) => {
+            if (Math.random() < 0.25) {
+              const shouldScramble = Math.random() < 0.4;
+              const randomGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+              const randomFont = fontFamilies[Math.floor(Math.random() * fontFamilies.length)];
+              const randomWeight = fontWeights[Math.floor(Math.random() * fontWeights.length)];
+              const skewX = Math.random() * 20 - 10;
+              const scaleY = Math.random() * 0.4 + 0.8;
+              
+              return {
+                char: shouldScramble ? randomGlyph : c,
+                style: {
+                  fontFamily: randomFont,
+                  fontWeight: randomWeight as any,
+                  transform: `skewX(${skewX}deg) scaleY(${scaleY})`,
+                  color: Math.random() < 0.1 ? '#ffcc00' : Math.random() < 0.1 ? '#00fff9' : undefined,
+                  display: 'inline-block'
+                }
+              };
+            }
+            return { char: c, style: {} };
+          })
+        );
+
+        count++;
+        if (count > 8) {
+          clearInterval(interval);
+          setChars(word.split('').map(c => ({ char: c, style: {} })));
+          timer = setTimeout(runGlitch, Math.random() * 5000 + 10000);
+        }
+      }, 75);
+    };
+
+    timer = setTimeout(runGlitch, 2000);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [word]);
+
+  return (
+    <span className="relative inline-block select-none whitespace-nowrap">
+      {/* Invisible static text to preserve layout space and prevent shifts */}
+      <span className="invisible pointer-events-none" aria-hidden="true">
+        {word}
+      </span>
+      {/* Absolute container that does the glitching */}
+      <span className="absolute top-0 left-0 w-full h-full overflow-visible whitespace-nowrap">
+        {chars.map((item, idx) => (
+          <span key={idx} style={item.style}>
+            {item.char}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+};
+
+export const GlitchTitle = ({ text }: { text: string }) => {
+  const words = text.split(' ');
+
+  return (
+    <span className="inline-block select-none">
+      {words.map((word, idx) => (
+        <Fragment key={idx}>
+          {idx > 0 && ' '}
+          <GlitchWord word={word} />
+        </Fragment>
+      ))}
+    </span>
+  );
+};
 
 export const HomePage = () => {
   const { t } = useTranslation();
@@ -41,7 +135,7 @@ export const HomePage = () => {
         className="mb-6 md:mb-10 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.8] mb-4 ml-[-0.05em]">
-          <Trans i18nKey="home.title" />
+          <GlitchTitle text={t('home.title')} />
         </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] flex items-center gap-3">
           <StatusDot delay={0.8} />
