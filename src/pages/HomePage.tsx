@@ -40,7 +40,7 @@ const GlitchWord = ({ word }: { word: string }) => {
               const randomWeight = fontWeights[Math.floor(Math.random() * fontWeights.length)];
               const skewX = Math.random() * 20 - 10;
               const scaleY = Math.random() * 0.4 + 0.8;
-              
+
               return {
                 char: shouldScramble ? randomGlyph : c,
                 style: {
@@ -112,7 +112,7 @@ export const HomePage = () => {
 
   return (
     <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -144,7 +144,7 @@ export const HomePage = () => {
       </motion.header>
 
       <main className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -167,25 +167,25 @@ export const HomePage = () => {
           <div className="space-y-8">
             <nav className="flex flex-col gap-3 font-mono text-sm">
               <Link to="/cv" className="group grid grid-cols-[2.5rem_1fr_auto] w-full items-center border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
-                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span> 
-                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.cv" /></span> 
+                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/cv' ? 'text-white' : ''}`}>01</span>
+                <span className={`text-white ${location.pathname === '/cv' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.cv" /></span>
                 <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.cv_desc" /></span>
               </Link>
               <Link to="/photos" className="group grid grid-cols-[2.5rem_1fr_auto] w-full items-center border-b border-[#222] pb-2 transition-all hover:border-white text-left cursor-pointer">
-                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span> 
-                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.photos" /></span> 
+                <span className={`text-[#888] group-hover:text-white transition-colors ${location.pathname === '/photos' ? 'text-white' : ''}`}>02</span>
+                <span className={`text-white ${location.pathname === '/photos' ? 'font-bold' : ''}`}><Trans i18nKey="home.links.photos" /></span>
                 <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.photos_desc" /></span>
               </Link>
               <a href="https://radiovoltrega.com/endramaliats" target="_blank" rel="noopener noreferrer" className="group grid grid-cols-[2.5rem_1fr_auto] items-center border-b border-[#222] pb-2 transition-all hover:border-white">
-                <span className={`text-[#888] group-hover:text-white transition-colors`}>03</span> 
-                <span className="text-white"><Trans i18nKey="home.links.podcast" /></span> 
+                <span className={`text-[#888] group-hover:text-white transition-colors`}>03</span>
+                <span className="text-white"><Trans i18nKey="home.links.podcast" /></span>
                 <span className="text-[#888] group-hover:text-white transition-colors text-right"><Trans i18nKey="home.links.podcast_desc" /></span>
               </a>
             </nav>
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={{
             hidden: { opacity: 0 },
             show: {
@@ -200,7 +200,7 @@ export const HomePage = () => {
           animate="show"
           className="lg:col-span-7 h-auto lg:h-[auto] min-h-[400px] grid grid-cols-2 grid-rows-3 gap-3"
         >
-          <motion.div 
+          <motion.div
             variants={{
               hidden: { opacity: 0, scale: 0.95, y: 20 },
               show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
@@ -211,13 +211,10 @@ export const HomePage = () => {
               <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
               </div>
-              <motion.img 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                src={images[0]} 
-                alt={`${t('home.tags.traditions')} - ${t('common.photography_by')}`} 
-                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
+              <img
+                src={images[0]}
+                alt={`${t('home.tags.traditions')} - ${t('common.photography_by')}`}
+                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
               />
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
@@ -225,14 +222,14 @@ export const HomePage = () => {
               </div>
             </Link>
           </motion.div>
-          
+
           {[
             { img: images[1], tag: t('home.tags.nature') },
             { img: images[2], tag: t('home.tags.catalonia') },
             { img: images[3], tag: t('home.tags.travel') },
             { img: images[4], tag: t('home.tags.street') }
           ].map((item, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               variants={{
                 hidden: { opacity: 0, scale: 0.95, y: 20 },
@@ -244,13 +241,10 @@ export const HomePage = () => {
                 <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
                 </div>
-                <motion.img 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  src={item.img} 
-                  alt={`${item.tag} - ${t('common.photography_by')}`} 
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
+                <img
+                  src={item.img}
+                  alt={`${item.tag} - ${t('common.photography_by')}`}
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
                 />
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur px-2 py-1 text-[9px] md:text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity text-[#f0f0f0]">
