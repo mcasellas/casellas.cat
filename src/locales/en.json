@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Marc Casellas | NetDevOps & Photography",
-    "description": "Marc Casellas Portfolio. Computer engineer specialized in NetDevOps and automation. Passionate about travel, mountain and street photography."
+    "description": "Marc Casellas Portfolio. Computer engineer specialized in NetDevOps and automation. Passionate about landscape, travel and street photography."
   },
   "home": {
     "title": "MARC CASELLAS",
@@ -30,10 +30,13 @@
   },
   "common": {
     "location_country": "CATALONIA",
-    "photography_by": "Photography by Marc Casellas"
+    "photography_by": "Photography by Marc Casellas",
+    "loading": "LOADING"
   },
-  "footer": {
-    "back_to_home": "← Back to home"
+  "breadcrumb": {
+    "home": "HOME",
+    "cv": "CV",
+    "photos": "PHOTOGRAPHY"
   },
   "hola": {
     "title": "MARC CASELLAS",
@@ -148,6 +151,16 @@
   },
   "photos": {
     "title": "PHOTOGRAPHY PORTFOLIO",
-    "not_found": "No images found. Add your photos to the <1>public/images/</1> folder to see them here."
+    "category_label": "{{category}} Portfolio",
+    "not_found": "No images found in this category.",
+    "categories": {
+      "viatges": "Travel & Street Photography",
+      "astrofotografia": "Astrophotography",
+      "catalunya": "Catalonia",
+      "natura": "Landscape & Nature",
+      "concerts": "Concerts",
+      "tradicions": "Traditions",
+      "sense-categoritzar": "Uncategorized"
+    }
   }
 }

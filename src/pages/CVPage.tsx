@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
 export const CVPage = () => {
   const { t } = useTranslation();
@@ -31,7 +32,10 @@ export const CVPage = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
-        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
+        <Breadcrumbs items={[
+          { label: t('breadcrumb.home'), path: '/' },
+          { label: t('breadcrumb.cv'), path: '/cv' },
+        ]} />
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4 ml-[-0.05em]">
           <Trans i18nKey="home.title" />
         </h1>

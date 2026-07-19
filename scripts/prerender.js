@@ -2,7 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 const distDir = path.resolve('dist');
-const pages = ['photos', 'cv', 'hola'];
+const portfolioDir = path.resolve('src/images/portfolio');
+
+const categories = fs.existsSync(portfolioDir)
+  ? fs.readdirSync(portfolioDir, { withFileTypes: true })
+      .filter(entry => entry.isDirectory())
+      .map(entry => entry.name)
+  : [];
+
+const pages = ['photos', 'cv', 'hola', ...categories.map(slug => `photos/${slug}`)];
 
 pages.forEach(page => {
   const pageDir = path.join(distDir, page);

@@ -8,7 +8,7 @@
     "subtitle": "ENGINYER INFORMÀTIC (UPC) / FOTOGRAFIA / RÀDIO",
     "p1": "Hola, sóc en Marc. Nascut a la comarca d'Osona, Catalunya.",
     "p2": "Sóc <1>enginyer informàtic</1> de professió, especialitzat en NetDevOps, monitoratge i automatització.",
-    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia —sobretot de muntanya, paisatge i carrer— i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
+    "p3": "Fora de l'àmbit tècnic, sóc un apassionat de capturar i explicar històries. Ho faig a través de la fotografia —sobretot de paisatge, viatge i carrer— i també des de la ràdio. Aquest espai recull una part d'aquesta vessant més personal i creativa.",
     "links": {
       "cv": "CURRÍCULUM",
       "cv_desc": "NETDEVOPS →",
@@ -30,10 +30,13 @@
   },
   "common": {
     "location_country": "CATALUNYA",
-    "photography_by": "Fotografia de Marc Casellas"
+    "photography_by": "Fotografia de Marc Casellas",
+    "loading": "CARREGANT"
   },
-  "footer": {
-    "back_to_home": "← Tornar a l'inici"
+  "breadcrumb": {
+    "home": "INICI",
+    "cv": "CV",
+    "photos": "FOTOGRAFIA"
   },
   "hola": {
     "title": "MARC CASELLAS",
@@ -61,7 +64,7 @@
     "about": {
       "title": "Sobre mi",
       "p1": "Enginyer Informàtic (UPC) especialitzat en <1>monitoratge d'infraestructures, automatització</1> i el desplegament de serveis crítics (<3>NetDevOps</3>). Amb una sòlida base en <5>Python</5> i <7>entorns Cloud (GCP/Docker)</7>. Apassionat per l'observabilitat, l'eficiència operativa i la seguretat de xarxa.",
-      "p2": "Residint a Osona, Barcelona (Catalunya)."
+      "p2": "Sóc d'Osona, Barcelona (Catalunya)."
     },
     "experience": {
       "title": "Experiència Professional",
@@ -148,6 +151,16 @@
   },
   "photos": {
     "title": "PORTFOLIO FOTOGRÀFIC",
-    "not_found": "No s'han trobat imatges. Afegeix les teves fotos a la carpeta <1>public/images/</1> per veure-les aquí."
+    "category_label": "Portfolio {{category}}",
+    "not_found": "No s'han trobat imatges en aquesta categoria.",
+    "categories": {
+      "viatges": "Viatges i carrer",
+      "astrofotografia": "Astrofotografia",
+      "catalunya": "Catalunya",
+      "natura": "Paisatge i Natura",
+      "concerts": "Concerts",
+      "tradicions": "Tradicions",
+      "sense-categoritzar": "Sense categoritzar"
+    }
   }
 }

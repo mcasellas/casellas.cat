@@ -1,8 +1,24 @@
 #!/bin/bash
-# Script per optimitzar el portfoli a WebP (Fulls i Thumbs)
+# Script per optimitzar fotos noves a WebP (Fulls i Thumbs), organitzades per categoria
 # Adaptat per Marc Casellas
+#
+# Ús: ./optimize-portfolio.sh <categoria>
+# Cal deixar les fotos RAW (jpg/jpeg/png) directament dins de
+# src/images/portfolio/<categoria>/ (no dins de fulls/ ni thumbs/).
 
-SRC_DIR="src/images/portfolio"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/.." || exit 1
+
+CATEGORY="$1"
+
+if [ -z "$CATEGORY" ]; then
+    echo "Ús: $0 <categoria>"
+    echo "Categories existents:"
+    find src/images/portfolio -mindepth 1 -maxdepth 1 -type d -printf '  - %f\n' 2>/dev/null
+    exit 1
+fi
+
+SRC_DIR="src/images/portfolio/$CATEGORY"
 FULLS_DIR="$SRC_DIR/fulls"
 THUMBS_DIR="$SRC_DIR/thumbs"
 
@@ -18,15 +34,15 @@ else
     exit 1
 fi
 
-echo "Iniciant optimització amb $CMD..."
+echo "Iniciant optimització de '$CATEGORY' amb $CMD..."
 
 # Use find to handle filenames with spaces and special characters safely
 find "$SRC_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | while read -r file; do
     base=$(basename "$file")
-    
+
     # Netejar nom: treure caràcters inicials i canviar extensió
     clean_name=$(echo "$base" | sed 's/^[_-]*//' | sed 's/\.[^.]*$//').webp
-    
+
     echo "Processant: $base"
 
     # 3. Generar FULL (preservant metadades) i THUMB (sense metadades)
@@ -40,4 +56,4 @@ find "$SRC_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -ina
 done
 
 echo "---"
-echo "Optimització finalitzada."
+echo "Optimització de '$CATEGORY' finalitzada."

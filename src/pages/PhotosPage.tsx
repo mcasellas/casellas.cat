@@ -1,167 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useTranslation, Trans } from 'react-i18next';
+import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import ExifReader from 'exifreader';
-import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
-
-const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  
-  return (
-    <div className="relative w-full h-full bg-black">
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-black animate-pulse" />
-      )}
-      <img 
-        src={src} 
-        alt={alt} 
-        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 ${isLoaded ? 'opacity-80 group-hover:opacity-100' : 'opacity-0'}`} 
-        loading="lazy" 
-        onLoad={() => setIsLoaded(true)}
-        onDragStart={(e) => e.preventDefault()}
-      />
-    </div>
-  );
-};
+import { Breadcrumbs } from '../components/Breadcrumbs';
+import { usePortfolioCategories } from '../hooks/usePortfolioImages';
 
 export const PhotosPage = () => {
   const { t } = useTranslation();
-  
-  const [images, setImages] = useState<{thumb: string, full: string}[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const loadImages = async () => {
-      const thumbModules = import.meta.glob('../images/portfolio/thumbs/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { as: 'url' });
-      const fullModules = import.meta.glob('../images/portfolio/fulls/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}', { as: 'url' });
-      
-      const thumbKeys = Object.keys(thumbModules);
-      const imageList = await Promise.all(thumbKeys.map(async (key) => {
-        const thumbUrl = await (thumbModules[key]() as any);
-        const filename = key.split('/').pop();
-        const fullKey = Object.keys(fullModules).find(k => k.endsWith(filename!));
-        const fullUrl = fullKey ? await (fullModules[fullKey]() as any) : thumbUrl;
-        
-        return { 
-          thumb: thumbUrl, 
-          full: fullUrl 
-        };
-      }));
-
-      const shuffled = [...imageList].sort(() => Math.random() - 0.5);
-      const count = Math.floor(shuffled.length / 4) * 4;
-      setImages(shuffled.slice(0, count));
-      setIsLoading(false);
-    };
-
-    loadImages();
-  }, []);
-
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState(0);
-  const [exifData, setExifData] = useState<any>(null);
-
-  useEffect(() => {
-    if (selectedIndex === null) {
-      setExifData(null);
-      return;
-    }
-    const fullSrc = images[selectedIndex].full;
-    fetch(fullSrc)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.arrayBuffer();
-      })
-      .then(buffer => {
-        return ExifReader.load(buffer);
-      })
-      .then(tags => {
-        setExifData(tags || {});
-      })
-      .catch(e => {
-        console.error("Failed to parse EXIF:", e);
-        setExifData({});
-      });
-  }, [selectedIndex, images]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return;
-      if (e.key === 'ArrowRight') {
-        nextImage();
-      } else if (e.key === 'ArrowLeft') {
-        prevImage();
-      } else if (e.key === 'Escape') {
-        setSelectedIndex(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex, images.length]);
-
-  const openImage = (index: number) => {
-    setSelectedIndex(index);
-  };
-
-  const closeImage = () => {
-    setSelectedIndex(null);
-    setDirection(0);
-  };
-
-  const nextImage = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (selectedIndex !== null) {
-      setDirection(1);
-      setSelectedIndex((selectedIndex + 1) % images.length);
-    }
-  };
-
-  const prevImage = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (selectedIndex !== null) {
-      setDirection(-1);
-      setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
-    }
-  };
-
-  const renderExifValues = () => {
-    if (!exifData || Object.keys(exifData).length === 0) return null;
-    
-    const items = [];
-    const model = exifData.Model?.description || exifData.Make?.description;
-    let fNumber = exifData.FNumber?.description;
-    if (fNumber && !fNumber.toString().toLowerCase().startsWith('f/')) {
-      fNumber = `f/${fNumber}`;
-    }
-    const exposureTime = exifData.ExposureTime?.description;
-    const iso = exifData.ISOSpeedRatings?.description || exifData.ISO?.description;
-
-    if (model) items.push({ icon: <Camera size={14} />, value: model });
-    if (fNumber) items.push({ icon: <CircleDot size={14} />, value: fNumber });
-    if (exposureTime) items.push({ icon: <Clock size={14} />, value: exposureTime.includes('/') ? `${exposureTime}s` : `${exposureTime}s` });
-    if (iso) items.push({ icon: <Info size={14} />, value: `ISO ${iso}` });
-
-    if (items.length === 0) return null;
-
-    return (
-      <div className="flex flex-wrap justify-center gap-4 items-center bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs font-mono text-[#ddd] text-center">
-        {items.map((item, i) => (
-          <div key={i} className="flex items-center gap-1.5">
-            {item.icon}
-            <span>{item.value}</span>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const { categories, isLoading } = usePortfolioCategories();
 
   return (
     <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -183,7 +35,10 @@ export const PhotosPage = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
       >
-        <Link to="/" className="text-[#888] hover:text-white font-mono text-xs uppercase tracking-widest mb-8 inline-block transition-colors">{t('footer.back_to_home')}</Link>
+        <Breadcrumbs items={[
+          { label: t('breadcrumb.home'), path: '/' },
+          { label: t('breadcrumb.photos'), path: '/photos' },
+        ]} />
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
           {t('home.title')}
         </h1>
@@ -199,46 +54,56 @@ export const PhotosPage = () => {
            animate={{ opacity: 1, y: 0 }}
            exit={{ opacity: 0, transition: { duration: 0.4 } }}
            transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {isLoading ? (
-            Array.from({ length: 12 }).map((_, i) => (
-              <div 
-                key={`skeleton-${i}`} 
-                className="bg-[#1a1a1a] rounded-sm aspect-square relative overflow-hidden"
+            Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={`skeleton-${i}`}
+                className="bg-[#1a1a1a] rounded-sm aspect-[4/3] relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
               </div>
             ))
-          ) : images.length > 0 ? (
-            images.map((img, index) => (
-              <motion.div 
-                key={index} 
+          ) : categories.length > 0 ? (
+            categories.map((cat, index) => (
+              <motion.div
+                key={cat.slug}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: Math.min(index * 0.03, 0.8),
-                  ease: [0.16, 1, 0.3, 1] 
+                transition={{
+                  duration: 0.5,
+                  delay: Math.min(index * 0.08, 0.8),
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                onClick={() => openImage(index)}
-                onContextMenu={(e) => e.preventDefault()}
-                className="bg-black rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none"
-               >
-                 <ImageWithPlaceholder 
-                   src={img.thumb} 
-                   alt={`Photography ${index}`} 
-                 />
-                 <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
+                className="bg-black rounded-sm overflow-hidden aspect-[4/3] relative group cursor-pointer select-none"
+              >
+                <Link to={`/photos/${cat.slug}`} className="absolute inset-0 block">
+                  <div className="relative w-full h-full bg-[#1a1a1a]">
+                    <img
+                      src={cat.images[0]?.thumb}
+                      alt={t(`photos.categories.${cat.slug}`, { defaultValue: cat.slug })}
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 flex items-end justify-between">
+                    <h2 className="text-xl md:text-3xl font-black tracking-tighter text-white uppercase">
+                      {t(`photos.categories.${cat.slug}`, { defaultValue: cat.slug })}
+                    </h2>
+                    <span className="text-[10px] md:text-xs font-mono text-[#ccc] bg-black/50 backdrop-blur px-2 py-1 rounded-full">
+                      {cat.images.length}
+                    </span>
+                  </div>
+                </Link>
               </motion.div>
             ))
           ) : (
              <div className="col-span-full py-20 text-center flex flex-col items-center justify-center border border-dashed border-[#333] rounded-sm">
                <span className="text-2xl mb-4">📷</span>
                <p className="text-[#666] font-mono text-sm max-w-md">
-                 <Trans i18nKey="photos.not_found">
-                   No s'han trobat imatges. Afegeix les teves fotos a la carpeta <span className="text-white bg-[#222] px-1 rounded">src/images/portfolio/</span> per veure-les aquí.
-                 </Trans>
+                 {t('photos.not_found')}
                </p>
              </div>
           )}
@@ -246,111 +111,6 @@ export const PhotosPage = () => {
       </main>
 
       <Footer />
-
-      <AnimatePresence>
-        {selectedIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 md:p-8 touch-none"
-            onClick={closeImage}
-          >
-            <button 
-              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-black/50 p-2 rounded-full z-50 cursor-pointer"
-              onClick={closeImage}
-            >
-              <X size={24} />
-            </button>
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex flex-col items-center justify-center pointer-events-none w-full h-full"
-            >
-              {/* Preload adjacent images */}
-              <div className="hidden">
-                <img src={images[(selectedIndex + 1) % images.length].full} alt="preload-next" />
-                <img src={images[(selectedIndex - 1 + images.length) % images.length].full} alt="preload-prev" />
-              </div>
-
-              <button 
-                className="hidden md:flex absolute left-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
-                onClick={prevImage}
-              >
-                <ChevronLeft size={36} />
-              </button>
-              
-              <div 
-                className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center select-none pointer-events-auto overflow-hidden px-4 md:px-0" 
-                onContextMenu={(e) => e.preventDefault()}
-              >
-                <AnimatePresence initial={false} custom={direction}>
-                  <motion.img 
-                    key={selectedIndex}
-                    src={images[selectedIndex].full} 
-                    alt="Expanded photography" 
-                    onClick={(e) => e.stopPropagation()} 
-                    custom={direction}
-                    variants={{
-                      enter: (direction: number) => ({
-                        x: direction > 0 ? '100%' : '-100%',
-                        opacity: 0,
-                        scale: 0.9
-                      }),
-                      center: {
-                        zIndex: 1,
-                        x: 0,
-                        opacity: 1,
-                        scale: 1
-                      },
-                      exit: (direction: number) => ({
-                        zIndex: 0,
-                        x: direction < 0 ? '100%' : '-100%',
-                        opacity: 0,
-                        scale: 0.9
-                      })
-                    }}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.5}
-                    onDragEnd={(_, info) => {
-                      const threshold = 50;
-                      if (info.offset.x > threshold) {
-                        prevImage();
-                      } else if (info.offset.x < -threshold) {
-                        nextImage();
-                      }
-                    }}
-                    transition={{ 
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 },
-                      scale: { duration: 0.2 }
-                    }}
-                    className="absolute max-w-full max-h-full object-contain rounded-sm shadow-2xl cursor-grab active:cursor-grabbing"
-                    onDragStart={(e) => e.preventDefault()}
-                  />
-                </AnimatePresence>
-              </div>
-              
-              <button 
-                className="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 p-2 text-white/50 hover:text-white transition-colors bg-black/30 rounded-full cursor-pointer z-50 pointer-events-auto"
-                onClick={nextImage}
-              >
-                <ChevronRight size={36} />
-              </button>
-              
-              <div className="mt-6 w-full flex justify-center px-4 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-                {renderExifValues()}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
