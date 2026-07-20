@@ -8,7 +8,7 @@ import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { usePortfolioCategories } from '../hooks/usePortfolioImages';
+import { usePortfolioCategoryImages, getCategorySlugs } from '../hooks/usePortfolioImages';
 
 const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -33,11 +33,10 @@ const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
 export const PhotosCategoryPage = () => {
   const { t } = useTranslation();
   const { category } = useParams<{ category: string }>();
-  const { categories, isLoading } = usePortfolioCategories();
+  const { images, isLoading } = usePortfolioCategoryImages(category);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const categoryData = categories.find((c) => c.slug === category);
-  const images = categoryData?.images ?? [];
+  const categoryExists = !!category && getCategorySlugs().includes(category);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
@@ -148,7 +147,7 @@ export const PhotosCategoryPage = () => {
     );
   };
 
-  if (!isLoading && !categoryData) {
+  if (!categoryExists) {
     return <Navigate to="/photos" replace />;
   }
 
@@ -176,7 +175,7 @@ export const PhotosCategoryPage = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
+        className="sticky top-0 z-30 -mx-6 md:-mx-12 -mt-6 md:-mt-12 px-6 md:px-12 pt-14 md:pt-12 pb-6 md:pb-8 mb-6 md:mb-8 md:pr-48 xl:pr-96 bg-[#0a0a0b]/90 backdrop-blur-md border-b border-white/5"
       >
         <Breadcrumbs items={[
           { label: t('breadcrumb.home'), path: '/' },

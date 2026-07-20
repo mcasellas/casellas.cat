@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
-import { usePortfolioCategories } from '../hooks/usePortfolioImages';
+import { useFeaturedPhotoThumbs } from '../hooks/usePortfolioImages';
 import { FEATURED_PHOTOS } from '../config/featuredPhotos';
 
 const glyphs = 'X/_[]*\\#%&+$@01█▒░';
@@ -104,11 +104,7 @@ export const GlitchTitle = ({ text }: { text: string }) => {
 export const HomePage = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { categories } = usePortfolioCategories();
-
-  const images = FEATURED_PHOTOS.map((featured) =>
-    categories.find((c) => c.slug === featured.category)?.images.find((img) => img.filename === featured.filename)
-  );
+  const thumbs = useFeaturedPhotoThumbs(FEATURED_PHOTOS);
 
   return (
     <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
@@ -207,12 +203,12 @@ export const HomePage = () => {
             }}
             className="row-span-2 bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
           >
-            <Link to={`/photos/tradicions${images[0] ? `?photo=${encodeURIComponent(images[0].filename)}` : ''}`} className="absolute inset-0 block">
+            <Link to={`/photos/tradicions?photo=${encodeURIComponent(FEATURED_PHOTOS[0].filename)}`} className="absolute inset-0 block">
               <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
               </div>
               <img
-                src={images[0]?.thumb}
+                src={thumbs[0]}
                 alt={`${t('home.tags.traditions')} - ${t('common.photography_by')}`}
                 className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
               />
@@ -226,10 +222,10 @@ export const HomePage = () => {
           </motion.div>
 
           {[
-            { img: images[1], tag: t('home.tags.nature'), category: FEATURED_PHOTOS[1].category },
-            { img: images[2], tag: t('home.tags.catalonia'), category: FEATURED_PHOTOS[2].category },
-            { img: images[3], tag: t('home.tags.travel'), category: FEATURED_PHOTOS[3].category },
-            { img: images[4], tag: t('home.tags.street'), category: FEATURED_PHOTOS[4].category }
+            { thumb: thumbs[1], tag: t('home.tags.nature'), category: FEATURED_PHOTOS[1].category, filename: FEATURED_PHOTOS[1].filename },
+            { thumb: thumbs[2], tag: t('home.tags.catalonia'), category: FEATURED_PHOTOS[2].category, filename: FEATURED_PHOTOS[2].filename },
+            { thumb: thumbs[3], tag: t('home.tags.travel'), category: FEATURED_PHOTOS[3].category, filename: FEATURED_PHOTOS[3].filename },
+            { thumb: thumbs[4], tag: t('home.tags.street'), category: FEATURED_PHOTOS[4].category, filename: FEATURED_PHOTOS[4].filename }
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -239,12 +235,12 @@ export const HomePage = () => {
               }}
               className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
             >
-              <Link to={`/photos/${item.category}${item.img ? `?photo=${encodeURIComponent(item.img.filename)}` : ''}`} className="absolute inset-0 block">
+              <Link to={`/photos/${item.category}?photo=${encodeURIComponent(item.filename)}`} className="absolute inset-0 block">
                 <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
                 </div>
                 <img
-                  src={item.img?.thumb}
+                  src={item.thumb}
                   alt={`${item.tag} - ${t('common.photography_by')}`}
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
                 />

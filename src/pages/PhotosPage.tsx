@@ -5,11 +5,11 @@ import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { usePortfolioCategories } from '../hooks/usePortfolioImages';
+import { usePortfolioCategoryPreviews } from '../hooks/usePortfolioImages';
 
 export const PhotosPage = () => {
   const { t } = useTranslation();
-  const { categories, isLoading } = usePortfolioCategories();
+  const { previews, isLoading } = usePortfolioCategoryPreviews();
 
   return (
     <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
@@ -33,7 +33,7 @@ export const PhotosPage = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-12 md:mb-16 mt-8 md:mt-0 md:pr-48 xl:pr-96"
+        className="sticky top-0 z-30 -mx-6 md:-mx-12 -mt-6 md:-mt-12 px-6 md:px-12 pt-14 md:pt-12 pb-6 md:pb-8 mb-6 md:mb-8 md:pr-48 xl:pr-96 bg-[#0a0a0b]/90 backdrop-blur-md border-b border-white/5"
       >
         <Breadcrumbs items={[
           { label: t('breadcrumb.home'), path: '/' },
@@ -65,10 +65,10 @@ export const PhotosPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
               </div>
             ))
-          ) : categories.length > 0 ? (
-            categories.map((cat, index) => (
+          ) : previews.length > 0 ? (
+            previews.map((preview, index) => (
               <motion.div
-                key={cat.slug}
+                key={preview.slug}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{
@@ -78,11 +78,11 @@ export const PhotosPage = () => {
                 }}
                 className="bg-black rounded-sm overflow-hidden aspect-[4/3] relative group cursor-pointer select-none"
               >
-                <Link to={`/photos/${cat.slug}`} className="absolute inset-0 block">
+                <Link to={`/photos/${preview.slug}`} className="absolute inset-0 block">
                   <div className="relative w-full h-full bg-[#1a1a1a]">
                     <img
-                      src={cat.images[0]?.thumb}
-                      alt={t(`photos.categories.${cat.slug}`, { defaultValue: cat.slug })}
+                      src={preview.thumb}
+                      alt={t(`photos.categories.${preview.slug}`, { defaultValue: preview.slug })}
                       className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105"
                       loading="lazy"
                     />
@@ -90,10 +90,10 @@ export const PhotosPage = () => {
                   </div>
                   <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 flex items-end justify-between">
                     <h2 className="text-xl md:text-3xl font-black tracking-tighter text-white uppercase">
-                      {t(`photos.categories.${cat.slug}`, { defaultValue: cat.slug })}
+                      {t(`photos.categories.${preview.slug}`, { defaultValue: preview.slug })}
                     </h2>
                     <span className="text-[10px] md:text-xs font-mono text-[#ccc] bg-black/50 backdrop-blur px-2 py-1 rounded-full">
-                      {cat.images.length}
+                      {preview.count}
                     </span>
                   </div>
                 </Link>
