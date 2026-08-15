@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams, useSearchParams, Link } from 'react-router-dom';
 import ExifReader from 'exifreader';
-import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Camera, CircleDot, Clock, Info, Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
@@ -134,11 +134,14 @@ export const PhotosCategoryPage = () => {
     }
     const exposureTime = exifData.ExposureTime?.description;
     const iso = exifData.ISOSpeedRatings?.description || exifData.ISO?.description;
+    const dateDescription = exifData.DateTimeOriginal?.description || exifData.DateTime?.description || exifData.DateTimeDigitized?.description;
+    const year = dateDescription ? dateDescription.toString().split(/[:\s]/)[0] : undefined;
 
     if (model) items.push({ icon: <Camera size={14} />, value: model });
     if (fNumber) items.push({ icon: <CircleDot size={14} />, value: fNumber });
     if (exposureTime) items.push({ icon: <Clock size={14} />, value: exposureTime.includes('/') ? `${exposureTime}s` : `${exposureTime}s` });
     if (iso) items.push({ icon: <Info size={14} />, value: `ISO ${iso}` });
+    if (year && /^\d{4}$/.test(year)) items.push({ icon: <Calendar size={14} />, value: year });
 
     if (items.length === 0) return null;
 
