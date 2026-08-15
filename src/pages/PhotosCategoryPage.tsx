@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams, useSearchParams, Link } from 'react-router-dom';
@@ -48,6 +48,73 @@ export const PhotosCategoryPage = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
   const [exifData, setExifData] = useState<any>(null);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const panStartRef = useRef<{ pointerX: number; pointerY: number; panX: number; panY: number } | null>(null);
+
+  const clampPan = (x: number, y: number, currentZoom: number) => {
+    const container = viewportRef.current;
+    const img = imgRef.current;
+    if (!container || !img) return { x: 0, y: 0 };
+    const containerRect = container.getBoundingClientRect();
+    const maxX = Math.max(0, (img.offsetWidth * currentZoom - containerRect.width) / 2);
+    const maxY = Math.max(0, (img.offsetHeight * currentZoom - containerRect.height) / 2);
+    return {
+      x: Math.min(maxX, Math.max(-maxX, x)),
+      y: Math.min(maxY, Math.max(-maxY, y)),
+    };
+  };
+
+  const openedAtRef = useRef(0);
+
+  useEffect(() => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+    openedAtRef.current = Date.now();
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (zoom === 1) {
+      setPan({ x: 0, y: 0 });
+    } else {
+      setPan((p) => clampPan(p.x, p.y, zoom));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoom]);
+
+  const handleWheelZoom = (e: React.WheelEvent) => {
+    e.preventDefault();
+    setZoom((prev) => {
+      const next = prev * (1 - e.deltaY * 0.0015);
+      return Math.min(4, Math.max(1, next));
+    });
+  };
+
+  const handlePanPointerDown = (e: React.PointerEvent) => {
+    if (zoom <= 1) return;
+    e.stopPropagation();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    panStartRef.current = { pointerX: e.clientX, pointerY: e.clientY, panX: pan.x, panY: pan.y };
+    setIsPanning(true);
+  };
+
+  const handlePanPointerMove = (e: React.PointerEvent) => {
+    if (!panStartRef.current || zoom <= 1) return;
+    e.stopPropagation();
+    const dx = e.clientX - panStartRef.current.pointerX;
+    const dy = e.clientY - panStartRef.current.pointerY;
+    setPan(clampPan(panStartRef.current.panX + dx, panStartRef.current.panY + dy, zoom));
+  };
+
+  const handlePanPointerUp = (e: React.PointerEvent) => {
+    if (!panStartRef.current) return;
+    e.stopPropagation();
+    panStartRef.current = null;
+    setIsPanning(false);
+  };
 
   useEffect(() => {
     const photoParam = searchParams.get('photo');
@@ -320,15 +387,19 @@ export const PhotosCategoryPage = () => {
               </button>
 
               <div
+                ref={viewportRef}
                 className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center select-none pointer-events-auto overflow-hidden px-4 md:px-0"
                 onContextMenu={(e) => e.preventDefault()}
+                onWheel={handleWheelZoom}
+                onDoubleClick={(e) => {
+                  e.stopPropagation();
+                  if (Date.now() - openedAtRef.current < 400) return;
+                  setZoom((z) => (z > 1 ? 1 : 2));
+                }}
               >
                 <AnimatePresence initial={false} custom={direction}>
-                  <motion.img
+                  <motion.div
                     key={selectedIndex}
-                    src={images[selectedIndex].full}
-                    alt="Expanded photography"
-                    onClick={(e) => e.stopPropagation()}
                     custom={direction}
                     variants={{
                       enter: (direction: number) => ({
@@ -352,7 +423,7 @@ export const PhotosCategoryPage = () => {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    drag="x"
+                    drag={zoom > 1 ? false : "x"}
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.5}
                     onDragEnd={(_, info) => {
@@ -368,9 +439,28 @@ export const PhotosCategoryPage = () => {
                       opacity: { duration: 0.2 },
                       scale: { duration: 0.2 }
                     }}
-                    className="absolute max-w-full max-h-full object-contain rounded-sm shadow-2xl cursor-grab active:cursor-grabbing"
-                    onDragStart={(e) => e.preventDefault()}
-                  />
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <img
+                      ref={imgRef}
+                      src={images[selectedIndex].full}
+                      alt="Expanded photography"
+                      onClick={(e) => e.stopPropagation()}
+                      onPointerDown={handlePanPointerDown}
+                      onPointerMove={handlePanPointerMove}
+                      onPointerUp={handlePanPointerUp}
+                      onPointerCancel={handlePanPointerUp}
+                      draggable={false}
+                      onDragStart={(e) => e.preventDefault()}
+                      className="max-w-full max-h-full object-contain rounded-sm shadow-2xl select-none"
+                      style={{
+                        transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoom})`,
+                        transition: isPanning ? 'none' : 'transform 0.25s ease-out',
+                        cursor: zoom > 1 ? (isPanning ? 'grabbing' : 'grab') : 'default',
+                        touchAction: zoom > 1 ? 'none' : 'auto'
+                      }}
+                    />
+                  </motion.div>
                 </AnimatePresence>
               </div>
 
