@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, useParams, useSearchParams, Link } from 'react-router-dom';
 import ExifReader from 'exifreader';
 import { Camera, CircleDot, Clock, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { StatusDot } from '../components/StatusDot';
 import { Footer } from '../components/Footer';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { usePortfolioCategoryImages, getCategorySlugs } from '../hooks/usePortfolioImages';
+import {
+  usePortfolioCategoryImages,
+  usePortfolioSubcategoryPreviews,
+  getCategorySlugs,
+  getSubcategorySlugs,
+} from '../hooks/usePortfolioImages';
 
 const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,11 +37,13 @@ const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
 
 export const PhotosCategoryPage = () => {
   const { t } = useTranslation();
-  const { category } = useParams<{ category: string }>();
-  const { images, isLoading } = usePortfolioCategoryImages(category);
+  const { category, subcategory } = useParams<{ category: string; subcategory?: string }>();
+  const { images, isLoading } = usePortfolioCategoryImages(category, subcategory);
+  const { previews: subcategoryPreviews } = usePortfolioSubcategoryPreviews(subcategory ? undefined : category);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const categoryExists = !!category && getCategorySlugs().includes(category);
+  const subcategoryExists = !subcategory || (!!category && getSubcategorySlugs(category).includes(subcategory));
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
@@ -147,11 +154,14 @@ export const PhotosCategoryPage = () => {
     );
   };
 
-  if (!categoryExists) {
+  if (!categoryExists || !subcategoryExists) {
     return <Navigate to="/photos" replace />;
   }
 
   const categoryLabel = category ? t(`photos.categories.${category}`, { defaultValue: category }) : '';
+  const subcategoryLabel = subcategory
+    ? t(`photos.subcategories.${category}.${subcategory}`, { defaultValue: subcategory })
+    : '';
 
   return (
     <div className="min-h-screen text-[#f0f0f0] font-sans flex flex-col p-6 md:p-12 relative z-10 selection:bg-white selection:text-black">
@@ -181,13 +191,14 @@ export const PhotosCategoryPage = () => {
           { label: t('breadcrumb.home'), path: '/' },
           { label: t('breadcrumb.photos'), path: '/photos' },
           { label: categoryLabel, path: `/photos/${category}` },
+          ...(subcategory ? [{ label: subcategoryLabel, path: `/photos/${category}/${subcategory}` }] : []),
         ]} />
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
           {t('home.title')}
         </h1>
         <div className="text-sm md:text-xl font-mono text-[#FFCC00] uppercase flex items-center gap-3">
           <StatusDot delay={0.8} />
-          {t('photos.category_label', { category: categoryLabel })}
+          {t('photos.category_label', { category: subcategory ? subcategoryLabel : categoryLabel })}
         </div>
       </motion.header>
 
@@ -199,6 +210,33 @@ export const PhotosCategoryPage = () => {
            transition={{ duration: 1.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
+          {!subcategory && subcategoryPreviews.map((preview) => (
+            <Link
+              key={preview.slug}
+              to={`/photos/${category}/${preview.slug}`}
+              className="bg-black rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none block"
+            >
+              <div className="relative w-full h-full bg-[#1a1a1a]">
+                {preview.thumb && (
+                  <img
+                    src={preview.thumb}
+                    alt={t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: preview.slug })}
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+              </div>
+              <div className="absolute bottom-0 left-0 w-full p-3 md:p-4 flex items-end justify-between">
+                <h3 className="text-base md:text-xl font-black tracking-tighter text-white uppercase">
+                  {t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: preview.slug })}
+                </h3>
+                <span className="text-[10px] font-mono text-[#ccc] bg-black/50 backdrop-blur px-2 py-1 rounded-full">
+                  {preview.count}
+                </span>
+              </div>
+            </Link>
+          ))}
           {isLoading ? (
             Array.from({ length: 12 }).map((_, i) => (
               <div
@@ -230,14 +268,14 @@ export const PhotosCategoryPage = () => {
                  <div className="absolute inset-0 z-10" onContextMenu={(e) => e.preventDefault()}></div>
               </motion.div>
             ))
-          ) : (
+          ) : subcategoryPreviews.length === 0 ? (
              <div className="col-span-full py-20 text-center flex flex-col items-center justify-center border border-dashed border-[#333] rounded-sm">
                <span className="text-2xl mb-4">📷</span>
                <p className="text-[#666] font-mono text-sm max-w-md">
                  {t('photos.not_found')}
                </p>
              </div>
-          )}
+          ) : null}
         </motion.div>
       </main>
 

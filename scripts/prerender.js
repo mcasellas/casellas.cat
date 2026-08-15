@@ -10,7 +10,20 @@ const categories = fs.existsSync(portfolioDir)
       .map(entry => entry.name)
   : [];
 
-const pages = ['photos', 'cv', 'hola', ...categories.map(slug => `photos/${slug}`)];
+const subcategoriesOf = (category) => {
+  const thumbsDir = path.join(portfolioDir, category, 'thumbs');
+  return fs.existsSync(thumbsDir)
+    ? fs.readdirSync(thumbsDir, { withFileTypes: true })
+        .filter(entry => entry.isDirectory())
+        .map(entry => entry.name)
+    : [];
+};
+
+const pages = [
+  'photos', 'cv', 'hola',
+  ...categories.map(slug => `photos/${slug}`),
+  ...categories.flatMap(category => subcategoriesOf(category).map(sub => `photos/${category}/${sub}`)),
+];
 
 pages.forEach(page => {
   const pageDir = path.join(distDir, page);

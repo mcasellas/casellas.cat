@@ -46,6 +46,7 @@ function App() {
             <Route path="/cv" element={<CVPage />} />
             <Route path="/photos" element={<PhotosPage />} />
             <Route path="/photos/:category" element={<PhotosCategoryPage />} />
+            <Route path="/photos/:category/:subcategory" element={<PhotosCategoryPage />} />
             <Route path="/hola" element={<HolaPage />} />
             <Route path="/index.html" element={<Navigate to="/" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />

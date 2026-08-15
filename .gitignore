@@ -11,5 +11,5 @@ coverage/
 # Mai es puja a git; d'aquí es generen els fulls/thumbs de src/images/portfolio.
 /originals/
 
-# Log del plugin de Lightroom
-scripts/run-publish-sync.log
+# Log del plugin de Lightroom (ja cobert per *.log, es deixa explícit per claredat)
+scripts/lightroom-sync.log
