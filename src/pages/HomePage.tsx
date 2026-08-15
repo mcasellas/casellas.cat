@@ -222,10 +222,10 @@ export const HomePage = () => {
           </motion.div>
 
           {[
-            { thumb: thumbs[1], tag: t('home.tags.nature'), category: FEATURED_PHOTOS[1].category, filename: FEATURED_PHOTOS[1].filename },
-            { thumb: thumbs[2], tag: t('home.tags.catalonia'), category: FEATURED_PHOTOS[2].category, filename: FEATURED_PHOTOS[2].filename },
-            { thumb: thumbs[3], tag: t('home.tags.travel'), category: FEATURED_PHOTOS[3].category, filename: FEATURED_PHOTOS[3].filename },
-            { thumb: thumbs[4], tag: t('home.tags.street'), category: FEATURED_PHOTOS[4].category, filename: FEATURED_PHOTOS[4].filename }
+            { thumb: thumbs[1], tag: t('home.tags.nature'), category: FEATURED_PHOTOS[1].category, subcategory: FEATURED_PHOTOS[1].subcategory, filename: FEATURED_PHOTOS[1].filename },
+            { thumb: thumbs[2], tag: t('home.tags.catalonia'), category: FEATURED_PHOTOS[2].category, subcategory: FEATURED_PHOTOS[2].subcategory, filename: FEATURED_PHOTOS[2].filename },
+            { thumb: thumbs[3], tag: t('home.tags.travel'), category: FEATURED_PHOTOS[3].category, subcategory: FEATURED_PHOTOS[3].subcategory, filename: FEATURED_PHOTOS[3].filename },
+            { thumb: thumbs[4], tag: t('home.tags.street'), category: FEATURED_PHOTOS[4].category, subcategory: FEATURED_PHOTOS[4].subcategory, filename: FEATURED_PHOTOS[4].filename }
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -235,7 +235,7 @@ export const HomePage = () => {
               }}
               className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
             >
-              <Link to={`/photos/${item.category}?photo=${encodeURIComponent(item.filename)}`} className="absolute inset-0 block">
+              <Link to={`/photos/${item.category}${item.subcategory ? `/${item.subcategory}` : ''}?photo=${encodeURIComponent(item.filename)}`} className="absolute inset-0 block">
                 <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
                 </div>

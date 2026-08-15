@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { FeaturedPhoto } from '../config/featuredPhotos';
 
 export interface PortfolioImage {
   thumb: string;
@@ -10,11 +11,6 @@ export interface PortfolioCategoryPreview {
   slug: string;
   count: number;
   thumb?: string;
-}
-
-export interface FeaturedPhoto {
-  category: string;
-  filename: string;
 }
 
 const CATEGORY_ORDER = ['viatges', 'natura', 'astrofotografia', 'catalunya', 'concerts', 'tradicions'];
@@ -102,6 +98,20 @@ const resolveFull = async (category: string, filename: string, fallback: string,
   return key ? (modules[key]() as Promise<string>) : fallback;
 };
 
+// Fallback if a FEATURED_PHOTOS entry no longer resolves (e.g. renamed/moved
+// by the Lightroom sync): pick any other photo from the same category so the
+// home page still shows something instead of a blank tile.
+const resolveRandomThumb = (category: string): Promise<string> | null => {
+  const direct = (filenamesByCategory().get(category) ?? []).map((filename) => ({ filename, subcategory: undefined as string | undefined }));
+  const nested = Array.from(filenamesBySubcategory().get(category)?.entries() ?? []).flatMap(([subcategory, filenames]) =>
+    filenames.map((filename) => ({ filename, subcategory }))
+  );
+  const entries = [...direct, ...nested];
+  if (entries.length === 0) return null;
+  const pick = entries[Math.floor(Math.random() * entries.length)];
+  return resolveThumb(category, pick.filename, pick.subcategory);
+};
+
 /** Home page: resolves only the handful of thumbs listed in FEATURED_PHOTOS. */
 export function useFeaturedPhotoThumbs(featured: FeaturedPhoto[]) {
   const [thumbs, setThumbs] = useState<(string | undefined)[]>(() => featured.map(() => undefined));
@@ -109,7 +119,9 @@ export function useFeaturedPhotoThumbs(featured: FeaturedPhoto[]) {
   useEffect(() => {
     let cancelled = false;
     Promise.all(
-      featured.map(({ category, filename }) => resolveThumb(category, filename) ?? Promise.resolve(undefined))
+      featured.map(({ category, filename, subcategory }) =>
+        resolveThumb(category, filename, subcategory) ?? resolveRandomThumb(category) ?? Promise.resolve(undefined)
+      )
     ).then((urls) => {
       if (!cancelled) setThumbs(urls);
     });
