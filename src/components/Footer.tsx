@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Instagram, Twitter, Linkedin, Github } from 'lucide-react';
 
-export const Footer = () => {
+interface FooterProps {
+  showUsageNotice?: boolean;
+}
+
+export const Footer = ({ showUsageNotice }: FooterProps = {}) => {
   const { t } = useTranslation();
 
   return (
@@ -53,8 +57,11 @@ export const Footer = () => {
         <div className="md:hidden">
           <LanguageSwitcher />
         </div>
-        <div className="text-[11px] font-mono text-[#888] tracking-tight">
-          © {new Date().getFullYear()} CASELLAS.CAT
+        <div className="flex items-center gap-3 text-[11px] font-mono tracking-tight">
+          {showUsageNotice && (
+            <span className="text-[#777]">{t('photos.usage_notice')}</span>
+          )}
+          <span className="text-[#888]">© {new Date().getFullYear()} CASELLAS.CAT</span>
         </div>
       </div>
     </motion.footer>
