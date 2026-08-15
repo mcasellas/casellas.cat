@@ -153,6 +153,7 @@
     "title": "PHOTOGRAPHY PORTFOLIO",
     "category_label": "{{category}} Portfolio",
     "not_found": "No images found in this category.",
+    "usage_notice": "Personal, non-commercial use only. Do not reproduce without permission.",
     "categories": {
       "viatges": "Travel & Street Photography",
       "astrofotografia": "Astrophotography",

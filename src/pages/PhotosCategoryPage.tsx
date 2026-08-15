@@ -241,7 +241,7 @@ export const PhotosCategoryPage = () => {
         </motion.div>
       </main>
 
-      <Footer />
+      <Footer showUsageNotice />
 
       <AnimatePresence>
         {selectedIndex !== null && (

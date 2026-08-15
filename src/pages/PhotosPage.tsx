@@ -110,7 +110,7 @@ export const PhotosPage = () => {
         </motion.div>
       </main>
 
-      <Footer />
+      <Footer showUsageNotice />
     </div>
   );
 };

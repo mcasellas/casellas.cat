@@ -153,6 +153,7 @@
     "title": "PORTFOLIO FOTOGRÀFIC",
     "category_label": "Portfolio {{category}}",
     "not_found": "No s'han trobat imatges en aquesta categoria.",
+    "usage_notice": "Ús personal i no comercial. No reproduir sense autorització.",
     "categories": {
       "viatges": "Viatges i carrer",
       "astrofotografia": "Astrofotografia",
