@@ -7,7 +7,9 @@
 -- bug de cmd.exe on, si el primer token de la línia també va entre cometes
 -- i n'hi ha d'altres després, la quotació es trenca.
 --
--- Cal tenir "magick" (ImageMagick) i "git" al PATH del sistema.
+-- Cal tenir "git" al PATH del sistema. ImageMagick va inclòs al plugin
+-- (imagemagick/magick.exe, versió portable); si no hi és, es fa servir el
+-- "magick" del PATH (vegeu magickCommand).
 
 local LrDialogs = import 'LrDialogs'
 local LrFileUtils = import 'LrFileUtils'
@@ -34,6 +36,21 @@ local function execute(cmd)
 	local ok, result = LrTasks.pcall(LrTasks.execute, cmd)
 	if not ok then return nil, result end
 	return result
+end
+
+-- ImageMagick portable inclòs dins del plugin (imagemagick/magick.exe). Si no
+-- hi és, es fa servir el "magick" del PATH del sistema.
+local bundledMagick = LrPathUtils.child(LrPathUtils.child(_PLUGIN.path, 'imagemagick'), 'magick.exe')
+
+-- Executa magick amb `args` (ja quotats). Amb el magick inclòs cal posar la
+-- ruta entre cometes; per evitar el bug de cmd.exe amb el primer token quotat
+-- (vegeu la capçalera), tota la línia s'embolcalla amb un parell de cometes
+-- extra, que cmd.exe treu abans d'executar-la.
+local function magickCommand(args)
+	if LrFileUtils.exists(bundledMagick) then
+		return string.format('""%s" %s"', bundledMagick, args)
+	end
+	return 'magick ' .. args
 end
 
 local function child(base, ...)
@@ -83,16 +100,38 @@ function PortfolioSync.generateForPhoto(repoRoot, category, origPath, subcategor
 	local full = LrPathUtils.child(dirs.fulls, stem .. '.webp')
 	local thumb = LrPathUtils.child(dirs.thumbs, stem .. '.webp')
 
-	execute(string.format('magick "%s" -quality 75 "%s"', origPath, full))
-	execute(string.format('magick "%s" -quality 60 -resize "580x580>" -strip "%s"', origPath, thumb))
+	-- Es comprova el codi de sortida de `magick` (no només que el webp
+	-- existeixi): un webp vell d'una publicació anterior faria passar per bona
+	-- una generació que en realitat ha fallat (p.ex. si `magick` no és al PATH).
+	-- L'stderr de magick (o de cmd.exe, si no el troba) va a un fitxer temporal
+	-- propi d'aquesta foto i després s'afegeix al log. NO es pot redirigir
+	-- directament al log (2>>log): cmd.exe el manté obert mentre magick corre i,
+	-- amb diversos workers en paral·lel, els altres cmd.exe no el poden obrir
+	-- ("el fitxer està sent utilitzat per un altre procés"), no executen magick
+	-- i retornen 1.
+	local errFile = LrFileUtils.chooseUniqueFileName(LrPathUtils.child(
+		LrPathUtils.getStandardFilePath('temp'),
+		'agit-magick-' .. stem:gsub('[^%w%-_]', '_') .. '.err'
+	))
+	local fullExit = execute(magickCommand(string.format('-quiet "%s" -quality 75 "%s" 2>>"%s"', origPath, full, errFile)))
+	local thumbExit = execute(magickCommand(string.format('-quiet "%s" -quality 60 -resize "580x580>" -strip "%s" 2>>"%s"', origPath, thumb, errFile)))
 
-	if not LrFileUtils.exists(full) or not LrFileUtils.exists(thumb) then
-		appendLog(repoRoot, string.format('ERROR generant %s (%s)', stem, label))
-		LrDialogs.message(
-			'aGit@',
-			string.format("No s'ha pogut generar el webp per a '%s' (%s). Revisa que 'magick' sigui al PATH.", stem, label),
-			'warning'
-		)
+	local stderr = ''
+	if LrFileUtils.exists(errFile) then
+		stderr = (LrFileUtils.readFile(errFile) or ''):gsub('%s+$', '')
+		LrFileUtils.delete(errFile)
+	end
+
+	if fullExit ~= 0 or thumbExit ~= 0 or not LrFileUtils.exists(full) or not LrFileUtils.exists(thumb) then
+		appendLog(repoRoot, string.format(
+			'ERROR generant %s (%s) — codis magick: full=%s thumb=%s%s',
+			stem, label, tostring(fullExit), tostring(thumbExit),
+			stderr ~= '' and ('\n    ' .. stderr:gsub('\r?\n', '\n    ')) or ''
+		))
+		-- Sense diàleg aquí (amb moltes fotos seria un per foto): qui crida
+		-- informa de l'error — processRenderedPhotos via rendition:uploadFailed
+		-- (Lightroom en fa el resum i la foto queda pendent) i syncAll amb el
+		-- recompte d'errors final.
 		return false
 	end
 
@@ -192,7 +231,8 @@ end
 -- d'originals/) com per processRenderedPhotos (les fotos d'una publicació).
 --
 -- progressCallback(done, total, filename) és opcional. S'ha de cridar dins
--- d'una async task. Retorna (total, errors, workerCount efectiu).
+-- d'una async task. Retorna (total, errors, workerCount efectiu), i marca
+-- cada element de `photos` amb photo.ok = true/false.
 function PortfolioSync.generateMany(repoRoot, photos, workerCount, progressCallback)
 	if #photos == 0 then return 0, 0, 0 end
 
@@ -208,6 +248,7 @@ function PortfolioSync.generateMany(repoRoot, photos, workerCount, progressCallb
 		LrTasks.startAsyncTask(function()
 			for _, photo in ipairs(chunk) do
 				local ok = PortfolioSync.generateForPhoto(repoRoot, photo.category, photo.path, photo.subcategory)
+				photo.ok = ok
 				doneCount = doneCount + 1
 				if not ok then errorCount = errorCount + 1 end
 				if progressCallback then progressCallback(doneCount, #photos, LrPathUtils.leafName(photo.path)) end

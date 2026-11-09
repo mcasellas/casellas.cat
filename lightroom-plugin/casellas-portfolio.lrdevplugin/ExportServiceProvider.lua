@@ -280,7 +280,10 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
 	if subcategory then targetDir = LrPathUtils.child(targetDir, subcategory) end
 	LrFileUtils.createAllDirectories(targetDir)
 
-	local renderedPaths = {}
+	-- La foto NO es marca com a publicada (recordPublishedPhotoId) fins que
+	-- els webp s'han generat bé: si magick falla, es crida uploadFailed i
+	-- Lightroom la deixa a "Pendents de publicar" i mostra l'error.
+	local jobs = {}
 
 	for _, rendition in exportContext:renditions { stopIfCanceled = true } do
 		local success, pathOrMessage = rendition:waitForRender()
@@ -293,14 +296,18 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
 			end
 			LrFileUtils.move(pathOrMessage, finalPath)
 
-			rendition:recordPublishedPhotoId(finalPath)
-			table.insert(renderedPaths, finalPath)
+			table.insert(jobs, {
+				rendition = rendition,
+				path = finalPath,
+				category = category,
+				subcategory = subcategory,
+			})
 		else
-			LrDialogs.message('aGit@', 'Error exportant una foto: ' .. tostring(pathOrMessage), 'critical')
+			rendition:uploadFailed('Error exportant la foto: ' .. tostring(pathOrMessage))
 		end
 	end
 
-	if #renderedPaths == 0 then return end
+	if #jobs == 0 then return end
 
 	-- Es crida directament (sense LrTasks.startAsyncTask): processRenderedPhotos
 	-- ja s'executa dins d'un context que admet yield (per això
@@ -312,16 +319,27 @@ function exportServiceProvider.processRenderedPhotos(functionContext, exportCont
 	local progressScope = exportContext:configureProgress { title = 'aGit@ — Generant fulls/thumbs' }
 
 	if exportSettings.runSync then
-		local jobs = {}
-		for _, path in ipairs(renderedPaths) do
-			table.insert(jobs, { path = path, category = category, subcategory = subcategory })
-		end
 		PortfolioSync.generateMany(exportSettings.repoRoot, jobs, exportSettings.parallelWorkers, function(done, total, filename)
 			progressScope:setCaption(string.format('%d/%d — %s', done, total, filename))
 			if total > 0 then
 				progressScope:setPortionComplete(done, total)
 			end
 		end)
+	end
+
+	for _, job in ipairs(jobs) do
+		if job.ok or not exportSettings.runSync then
+			job.rendition:recordPublishedPhotoId(job.path)
+		else
+			-- Si la foto no s'havia publicat mai, es treu l'original acabat de
+			-- copiar: si no, quedaria orfe a originals/ (i "Sincronitza tot" la
+			-- publicaria) encara que després es tregui de la col·lecció.
+			-- Si ja estava publicada, es deixa: els webp anteriors segueixen vàlids.
+			if not job.rendition.publishedPhotoId and LrFileUtils.exists(job.path) then
+				LrFileUtils.delete(job.path)
+			end
+			job.rendition:uploadFailed("No s'ha pogut generar el webp. Revisa scripts/lightroom-sync.log.")
+		end
 	end
 
 	if exportSettings.gitPublish then
