@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
+import { toUrlSlug } from '../utils/humanizeSlug';
 import { motion } from 'motion/react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -235,7 +236,7 @@ export const HomePage = () => {
               }}
               className="bg-[#1a1a1a] rounded-sm overflow-hidden relative group cursor-pointer"
             >
-              <Link to={`/photos/${item.category}${item.subcategory ? `/${item.subcategory}` : ''}?photo=${encodeURIComponent(item.filename)}`} className="absolute inset-0 block">
+              <Link to={`/photos/${toUrlSlug(item.category)}${item.subcategory ? `/${toUrlSlug(item.subcategory)}` : ''}?photo=${encodeURIComponent(item.filename)}`} className="absolute inset-0 block">
                 <div className="absolute inset-0 bg-[#1a1a1a] overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
                 </div>

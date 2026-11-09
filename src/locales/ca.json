@@ -161,7 +161,7 @@
       "natura": "Paisatge i Natura",
       "concerts": "Concerts",
       "tradicions": "Tradicions",
-      "sense-categoritzar": "Sense categoritzar"
+      "sense_categoritzar": "Sense categoritzar"
     },
     "subcategories": {}
   }

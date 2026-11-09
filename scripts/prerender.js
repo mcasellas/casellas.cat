@@ -3,6 +3,8 @@ import path from 'path';
 
 const distDir = path.resolve('dist');
 const portfolioDir = path.resolve('src/images/portfolio');
+// A la URL els "_" de les carpetes es mostren com a "-".
+const toUrlSlug = (slug) => slug.replace(/_/g, '-');
 
 const categories = fs.existsSync(portfolioDir)
   ? fs.readdirSync(portfolioDir, { withFileTypes: true })
@@ -21,8 +23,8 @@ const subcategoriesOf = (category) => {
 
 const pages = [
   'photos', 'cv', 'hola',
-  ...categories.map(slug => `photos/${slug}`),
-  ...categories.flatMap(category => subcategoriesOf(category).map(sub => `photos/${category}/${sub}`)),
+  ...categories.map(slug => `photos/${toUrlSlug(slug)}`),
+  ...categories.flatMap(category => subcategoriesOf(category).map(sub => `photos/${toUrlSlug(category)}/${toUrlSlug(sub)}`)),
 ];
 
 pages.forEach(page => {

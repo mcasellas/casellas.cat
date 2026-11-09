@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { humanizeSlug, toUrlSlug } from '../utils/humanizeSlug';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
@@ -78,11 +79,11 @@ export const PhotosPage = () => {
                 }}
                 className="bg-black rounded-sm overflow-hidden aspect-[4/3] relative group cursor-pointer select-none"
               >
-                <Link to={`/photos/${preview.slug}`} className="absolute inset-0 block">
+                <Link to={`/photos/${toUrlSlug(preview.slug)}`} className="absolute inset-0 block">
                   <div className="relative w-full h-full bg-[#1a1a1a]">
                     <img
                       src={preview.thumb}
-                      alt={t(`photos.categories.${preview.slug}`, { defaultValue: preview.slug })}
+                      alt={t(`photos.categories.${preview.slug}`, { defaultValue: humanizeSlug(preview.slug) })}
                       className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105"
                       loading="lazy"
                     />
@@ -90,7 +91,7 @@ export const PhotosPage = () => {
                   </div>
                   <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 flex items-end justify-between">
                     <h2 className="text-xl md:text-3xl font-black tracking-tighter text-white uppercase">
-                      {t(`photos.categories.${preview.slug}`, { defaultValue: preview.slug })}
+                      {t(`photos.categories.${preview.slug}`, { defaultValue: humanizeSlug(preview.slug) })}
                     </h2>
                     <span className="text-[10px] md:text-xs font-mono text-[#ccc] bg-black/50 backdrop-blur px-2 py-1 rounded-full">
                       {preview.count}

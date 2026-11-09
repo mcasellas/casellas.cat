@@ -161,7 +161,7 @@
       "natura": "Landscape & Nature",
       "concerts": "Concerts",
       "tradicions": "Traditions",
-      "sense-categoritzar": "Uncategorized"
+      "sense_categoritzar": "Uncategorized"
     },
     "subcategories": {}
   }

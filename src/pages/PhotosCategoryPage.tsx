@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { humanizeSlug, toUrlSlug, fromUrlSlug } from '../utils/humanizeSlug';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams, useSearchParams, Link } from 'react-router-dom';
@@ -37,13 +38,15 @@ const ImageWithPlaceholder = ({ src, alt }: { src: string, alt: string }) => {
 
 export const PhotosCategoryPage = () => {
   const { t } = useTranslation();
-  const { category, subcategory } = useParams<{ category: string; subcategory?: string }>();
+  const { category: categoryParam, subcategory: subcategoryParam } = useParams<{ category: string; subcategory?: string }>();
+  const category = fromUrlSlug(categoryParam, getCategorySlugs());
+  const subcategory = category ? fromUrlSlug(subcategoryParam, getSubcategorySlugs(category)) : undefined;
   const { images, isLoading } = usePortfolioCategoryImages(category, subcategory);
   const { previews: subcategoryPreviews } = usePortfolioSubcategoryPreviews(subcategory ? undefined : category);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const categoryExists = !!category && getCategorySlugs().includes(category);
-  const subcategoryExists = !subcategory || (!!category && getSubcategorySlugs(category).includes(subcategory));
+  const categoryExists = !!category;
+  const subcategoryExists = !subcategoryParam || !!subcategory;
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
@@ -228,9 +231,9 @@ export const PhotosCategoryPage = () => {
     return <Navigate to="/photos" replace />;
   }
 
-  const categoryLabel = category ? t(`photos.categories.${category}`, { defaultValue: category }) : '';
+  const categoryLabel = category ? t(`photos.categories.${category}`, { defaultValue: humanizeSlug(category) }) : '';
   const subcategoryLabel = subcategory
-    ? t(`photos.subcategories.${category}.${subcategory}`, { defaultValue: subcategory })
+    ? t(`photos.subcategories.${category}.${subcategory}`, { defaultValue: humanizeSlug(subcategory) })
     : '';
 
   return (
@@ -260,8 +263,8 @@ export const PhotosCategoryPage = () => {
         <Breadcrumbs items={[
           { label: t('breadcrumb.home'), path: '/' },
           { label: t('breadcrumb.photos'), path: '/photos' },
-          { label: categoryLabel, path: `/photos/${category}` },
-          ...(subcategory ? [{ label: subcategoryLabel, path: `/photos/${category}/${subcategory}` }] : []),
+          { label: categoryLabel, path: `/photos/${toUrlSlug(category!)}` },
+          ...(subcategory ? [{ label: subcategoryLabel, path: `/photos/${toUrlSlug(category!)}/${toUrlSlug(subcategory)}` }] : []),
         ]} />
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.8] mb-4">
           {t('home.title')}
@@ -283,14 +286,14 @@ export const PhotosCategoryPage = () => {
           {!subcategory && subcategoryPreviews.map((preview) => (
             <Link
               key={preview.slug}
-              to={`/photos/${category}/${preview.slug}`}
+              to={`/photos/${toUrlSlug(category!)}/${toUrlSlug(preview.slug)}`}
               className="bg-black rounded-sm overflow-hidden aspect-square relative group cursor-pointer select-none block"
             >
               <div className="relative w-full h-full bg-[#1a1a1a]">
                 {preview.thumb && (
                   <img
                     src={preview.thumb}
-                    alt={t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: preview.slug })}
+                    alt={t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: humanizeSlug(preview.slug) })}
                     className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out group-hover:scale-105"
                     loading="lazy"
                   />
@@ -299,7 +302,7 @@ export const PhotosCategoryPage = () => {
               </div>
               <div className="absolute bottom-0 left-0 w-full p-3 md:p-4 flex items-end justify-between">
                 <h3 className="text-base md:text-xl font-black tracking-tighter text-white uppercase">
-                  {t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: preview.slug })}
+                  {t(`photos.subcategories.${category}.${preview.slug}`, { defaultValue: humanizeSlug(preview.slug) })}
                 </h3>
                 <span className="text-[10px] font-mono text-[#ccc] bg-black/50 backdrop-blur px-2 py-1 rounded-full">
                   {preview.count}

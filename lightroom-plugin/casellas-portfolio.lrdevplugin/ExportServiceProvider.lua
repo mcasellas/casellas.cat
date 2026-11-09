@@ -2,8 +2,8 @@
 --
 -- Crea una col·lecció de publicació per cada categoria del portfolio
 -- (viatges, natura, astrofotografia, catalunya, concerts, tradicions,
--- sense-categoritzar). El nom de la col·lecció s'utilitza literalment (en
--- minúscules, espais convertits en guionets) com a nom de la subcarpeta
+-- sense_categoritzar). El nom de la col·lecció s'utilitza literalment (en
+-- minúscules, espais convertits en _ ; els guions es mantenen) com a nom de la subcarpeta
 -- dins de originals/.
 --
 -- Subcategories: si la col·lecció és dins d'un Collection Set, el Cs
@@ -208,7 +208,7 @@ function exportServiceProvider.sectionsForTopOfDialog(f, propertyTable)
 end
 
 local function categoryFromCollectionName(name)
-	return (name or ''):lower():gsub('%s+', '-')
+	return ((name or ''):lower():gsub('%s+', '_'))
 end
 
 -- Si la col·lecció de publicació és dins d'un Collection Set, el Cs és la
@@ -256,8 +256,9 @@ function exportServiceProvider.goToPublishedCollection(publishSettings, info)
 	local collectionName = info.publishedCollectionInfo and info.publishedCollectionInfo.name
 	local category, subcategory = resolveCategoryAndSubcategory(info.publishedCollection, collectionName)
 	local domain = publishSettings.siteDomain or defaultSiteDomain
-	local url = 'https://' .. domain .. '/photos/' .. category .. '/'
-	if subcategory then url = url .. subcategory .. '/' end
+	-- A la URL els _ de la carpeta es mostren com a -.
+	local url = 'https://' .. domain .. '/photos/' .. category:gsub('_', '-') .. '/'
+	if subcategory then url = url .. subcategory:gsub('_', '-') .. '/' end
 	LrHttp.openUrlInBrowser(url)
 end
 
