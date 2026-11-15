@@ -3,8 +3,15 @@ import path from 'path';
 
 const distDir = path.resolve('dist');
 const portfolioDir = path.resolve('src/images/portfolio');
-// A la URL els "_" de les carpetes es mostren com a "-".
-const toUrlSlug = (slug) => slug.replace(/_/g, '-');
+// Ha de coincidir amb toUrlSlug de src/utils/humanizeSlug.ts.
+const toUrlSlug = (slug) =>
+  slug
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/·/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
 const categories = fs.existsSync(portfolioDir)
   ? fs.readdirSync(portfolioDir, { withFileTypes: true })

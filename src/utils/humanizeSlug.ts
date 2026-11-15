@@ -7,9 +7,22 @@ export const humanizeSlug = (slug: string): string => {
   return text.charAt(0).toLocaleUpperCase('ca') + text.slice(1);
 };
 
-// A la URL els "_" de la carpeta es mostren com a "-" (queda més net).
-export const toUrlSlug = (slug: string): string => slug.replace(/_/g, '-');
+// A la URL només hi deixem [a-z0-9-]: es treuen accents, dièresis, ç, "l·l"...
+// i qualsevol altre caràcter passa a "-" (p. ex. "l'església_de_cèl·lers" → "l-esglesia-de-cellers").
+// Ha de coincidir amb toUrlSlug de scripts/prerender.js.
+export const toUrlSlug = (slug: string): string =>
+  slug
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/·/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
-// Troba la carpeta real que correspon a un segment de URL.
-export const fromUrlSlug = (urlSlug: string | undefined, folders: string[]): string | undefined =>
-  urlSlug === undefined ? undefined : folders.find((f) => f === urlSlug || toUrlSlug(f) === urlSlug);
+// Troba la carpeta real que correspon a un segment de URL (accepta també
+// URLs antigues amb accents).
+export const fromUrlSlug = (urlSlug: string | undefined, folders: string[]): string | undefined => {
+  if (urlSlug === undefined) return undefined;
+  const normalized = toUrlSlug(urlSlug);
+  return folders.find((f) => f === urlSlug || toUrlSlug(f) === normalized);
+};

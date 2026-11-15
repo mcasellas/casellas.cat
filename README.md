@@ -78,6 +78,10 @@ per a una categoria plana. Al web, cada subcategoria té pàgina pròpia a
 
 El nom de la col·lecció (o del Collection Set) es converteix automàticament
 a minúscules amb espais convertits en `-` per formar el slug de carpeta/URL.
+A la URL, a més, només es deixen lletres sense accent, números i `-`: es
+treuen accents, dièresis, `ç`, `·`, i qualsevol altre caràcter passa a `-`
+(p. ex. `viatges/bèlgica` → `/photos/viatges/belgica`); la carpeta pot seguir
+tenint accents.
 Per mostrar el nom "bonic" a la web cal afegir l'entrada corresponent a
 `src/locales/ca.json`/`en.json` (`photos.categories.<slug>` o
 `photos.subcategories.<categoria>.<slug>`); si no hi ha traducció, es mostra
