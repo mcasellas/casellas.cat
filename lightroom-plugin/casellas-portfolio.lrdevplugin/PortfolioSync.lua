@@ -68,6 +68,37 @@ local function cleanStem(filename)
 	stem = stem:gsub('^[_%-]+', '')
 	return stem
 end
+PortfolioSync.cleanStem = cleanStem
+
+-- string.lower de Lua només toca ASCII: "BÈLGICA" quedaria "bÈlgica". Aquí
+-- també es passen a minúscules les lletres Latin-1 en UTF-8 (À-Þ → à-þ,
+-- excepte ×), que és el que cal per a noms en català/castellà/francès.
+-- Windows tracta els noms de fitxer sense distingir majúscules, així que
+-- també serveix per comparar camins.
+function PortfolioSync.foldCase(s)
+	return ((s or ''):lower():gsub('\195([\128-\158])', function(c)
+		if c == '\151' then return nil end
+		return '\195' .. string.char(c:byte() + 32)
+	end))
+end
+
+local function isEmptyDir(path)
+	if LrFileUtils.exists(path) ~= 'directory' then return false end
+	for _ in LrFileUtils.directoryEntries(path) do return false end
+	return true
+end
+
+-- Esborra `dir` i els seus directoris pare mentre quedin buits, sense pujar
+-- mai fins a `stopAt` (ni sortir-ne: si `dir` no hi és a dins, no fa res).
+function PortfolioSync.removeEmptyDirs(dir, stopAt)
+	local stop = PortfolioSync.foldCase(stopAt)
+	while dir do
+		local folded = PortfolioSync.foldCase(dir)
+		if folded == stop or folded:sub(1, #stop) ~= stop or not isEmptyDir(dir) then return end
+		LrFileUtils.delete(dir)
+		dir = LrPathUtils.parent(dir)
+	end
+end
 
 -- subcategory pot ser nil (categoria "arrel", sense subcarpeta extra).
 local function categoryDirs(repoRoot, category, subcategory)
@@ -150,6 +181,12 @@ function PortfolioSync.deleteForPhoto(repoRoot, category, filename, subcategory)
 
 	if LrFileUtils.exists(full) then LrFileUtils.delete(full) end
 	if LrFileUtils.exists(thumb) then LrFileUtils.delete(thumb) end
+
+	-- Si la (sub)categoria s'ha quedat buida, es treu la carpeta: si no, la web
+	-- continuaria mostrant-la (buida) després de renombrar o esborrar la col·lecció.
+	local portfolioRoot = child(repoRoot, 'src', 'images', 'portfolio')
+	PortfolioSync.removeEmptyDirs(dirs.fulls, portfolioRoot)
+	PortfolioSync.removeEmptyDirs(dirs.thumbs, portfolioRoot)
 
 	appendLog(repoRoot, string.format('Eliminat %s (%s)', stem, label))
 end

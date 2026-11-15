@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Obre una PR quan surt una versió nova de les actions del workflow
+  # (checkout, setup-node, deploy-pages...). Agrupades en una sola PR.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
